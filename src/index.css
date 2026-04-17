@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Tajawal', sans-serif;
+    scroll-behavior: smooth;
+  }
+
+  /* تطبيق الألوان الأساسية وانتقال ناعم بين الوضعين */
+  body {
+    @apply bg-slate-50 text-slate-800 transition-colors duration-300 dark:bg-slate-900 dark:text-slate-200;
+  }
+  
+  /* تصميم شريط التمرير ليتوافق مع الوضعين */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-300 dark:bg-slate-700 rounded-full transition-colors;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-400 dark:bg-slate-600;
+  }
+}
+
+@layer utilities {
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+}
+
+
+/* 🚀 إجبار التنبيهات على الظهور فوق أي مودال أو Portal في النظام */
+.swal2-container {
+  z-index: 100000 !important;
+}
+
+/* إذا كنت تستخدم مكتبة React Hot Toast أو Toastify للإشعارات الجانبية أضف هذا أيضاً */
+.Toastify__toast-container,
+[data-sonner-toaster] {
+  z-index: 100000 !important;
+}
+
+
+/* ========================================== */
+/* 🌙 دمج SweetAlert2 مع الوضع الليلي لـ Tailwind */
+/* ========================================== */
+
+/* عندما يكون المتصفح في الوضع الليلي */
+html.dark .swal2-popup {
+  background-color: #1e293b !important; /* bg-slate-800 */
+  color: #f8fafc !important; /* text-slate-50 */
+  border: 1px solid #334155 !important; /* border-slate-700 */
+  border-radius: 24px !important; /* حواف ناعمة مثل باقي النظام */
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+}
+
+html.dark .swal2-title {
+  color: #ffffff !important;
+}
+
+html.dark .swal2-html-container {
+  color: #94a3b8 !important; /* text-slate-400 */
+}
+
+/* تظليل الخلفية ليصبح أغمق في الوضع الليلي */
+html.dark .swal2-container.swal2-backdrop-show {
+  background: rgba(15, 23, 42, 0.8) !important; /* bg-slate-900/80 */
+  backdrop-filter: blur(4px) !important;
+}
+
+/* أيقونة النجاح (الخضراء) في الوضع الليلي */
+html.dark .swal2-icon.swal2-success {
+  border-color: #10b981 !important; /* emerald-500 */
+  color: #10b981 !important;
+}
+html.dark .swal2-icon.swal2-success [class^='swal2-success-line'] {
+  background-color: #10b981 !important;
+}
+html.dark .swal2-icon.swal2-success .swal2-success-ring {
+  border-color: rgba(16, 185, 129, 0.3) !important;
+}
+
+/* أيقونة الخطأ (الحمراء) في الوضع الليلي */
+html.dark .swal2-icon.swal2-error {
+  border-color: #f43f5e !important; /* rose-500 */
+  color: #f43f5e !important;
+}
+html.dark .swal2-icon.swal2-error [class^='swal2-x-mark-line'] {
+  background-color: #f43f5e !important;
+}
+
+/* أيقونة التحذير أو المعلومات */
+html.dark .swal2-icon.swal2-warning,
+html.dark .swal2-icon.swal2-info {
+  border-color: #f59e0b !important; /* amber-500 */
+  color: #f59e0b !important;
+}
