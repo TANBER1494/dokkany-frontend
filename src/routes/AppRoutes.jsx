@@ -1,7 +1,8 @@
-import { useState, lazy, Suspense } from 'react';
+import { useState, lazy, Suspense, useContext } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
 import logoImg from '../../src/assets/images/logo.png'; 
+import { AuthContext } from '../context/AuthContext';
 
 // 🚀 استدعاء الشاشات بنظام Lazy Loading لسرعة الأداء
 const Login = lazy(() => import('../pages/auth/Login'));
@@ -35,6 +36,20 @@ const AdminDashboard = lazy(() => import('../pages/admin/AdminDashboard'));
 const AdminUsers = lazy(() => import('../pages/admin/AdminUsers'));
 const AdminBranches = lazy(() => import('../pages/admin/AdminBranches'));
 const AdminSettings = lazy(() => import('../pages/admin/AdminSettings'));
+
+// 🧠 الحارس الذكي للمسار الرئيسي
+const SmartRoot = () => {
+  const { user } = useContext(AuthContext);
+
+  // إذا لم يكن هناك مستخدم، اذهب لصفحة الدخول
+  if (!user) return <Navigate to="/login" replace />;
+
+  // إذا كان هناك مستخدم، وجهه بناءً على منصبه
+  if (user.role === 'SUPER_ADMIN') return <Navigate to="/admin" replace />;
+  if (user.role === 'OWNER') return <Navigate to="/owner/dashboard" replace />;
+  
+  return <Navigate to="/cashier" replace />;
+};
 
 
 // 🚀 1. شاشة الـ SplashScreen مع دعم كامل للوضع الليلي
@@ -210,7 +225,7 @@ const AppRoutes = () => {
             <Route path="shift" element={<ShiftManager />} />
           </Route>
 
-          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/" element={<SmartRoot />} />
           <Route
             path="*"
             element={
