@@ -1,6 +1,7 @@
 import { useState, lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
+import logoImg from '../../src/assets/images/logo.png'; 
 
 // 🚀 استدعاء الشاشات بنظام Lazy Loading لسرعة الأداء
 const Login = lazy(() => import('../pages/auth/Login'));
@@ -39,7 +40,7 @@ const AdminSettings = lazy(() => import('../pages/admin/AdminSettings'));
 // مكون SplashScreen بالديزاين الجديد (Minimalist Blue)
 // 🚀 1. شاشة الـ SplashScreen مع دعم كامل للوضع الليلي
 const SplashScreen = ({ onStart }) => {
-  const logoUrl = 'https://cdn-icons-png.flaticon.com/512/3655/3655682.png';
+  const logoImg = '../../src/assets/images/logo.png'; // تأكد من مسار الصورة الصحيح
   
   return (
     // إضافة كلاسات الـ dark:bg-slate-950 وغيرها للوضع الليلي
@@ -47,7 +48,7 @@ const SplashScreen = ({ onStart }) => {
       
       <div className="flex-1 flex flex-col items-center justify-center w-full max-w-sm mt-10">
         <div className="w-full aspect-square max-h-[250px] relative flex items-center justify-center mb-10">
-           <img src={logoUrl} alt="دكاني" className="w-40 h-40 object-contain animate-float drop-shadow-xl" />
+           <img src={logoImg} alt="دكاني" className="w-120 h-120 object-contain animate-float drop-shadow-xl" />
         </div>
 
         <div className="flex items-center gap-2 mb-8">

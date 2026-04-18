@@ -101,7 +101,6 @@ const OwnerLayout = () => {
               <Building2 size={20} />
             </div>
             <h1 className="font-black text-lg tracking-tighter dark:text-white hidden sm:block">
-              دكاني
             </h1>
           </Link>
         </div>
