@@ -1,7 +1,7 @@
 import { useState, lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
-import logoImg from '../../src/assets/images/logo.png'; 
+import logoImg from '../assets/images/logo.png'; 
 
 // 🚀 استدعاء الشاشات بنظام Lazy Loading لسرعة الأداء
 const Login = lazy(() => import('../pages/auth/Login'));
