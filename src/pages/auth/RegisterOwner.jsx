@@ -16,9 +16,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import authService from '../../services/authService';
 import { showAlert } from '../../utils/alert';
+import logoImg from '../../assets/images/logo.png';
 
 const RegisterOwner = () => {
-  const logoUrl = 'https://cdn-icons-png.flaticon.com/512/3655/3655682.png';
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
 
@@ -44,7 +44,10 @@ const RegisterOwner = () => {
     if (!/^01[0125][0-9]{8}$/.test(formData.phone))
       return showAlert.error('تنبيه', 'صيغة رقم الهاتف غير صحيحة');
     if (formData.password.length < 6)
-      return showAlert.error('تنبيه', 'كلمة المرور يجب ألا تقل عن 6 أحرف/أرقام');
+      return showAlert.error(
+        'تنبيه',
+        'كلمة المرور يجب ألا تقل عن 6 أحرف/أرقام'
+      );
     setStep(2);
   };
 
@@ -56,7 +59,10 @@ const RegisterOwner = () => {
       !formData.branch_name ||
       !formData.branch_location
     ) {
-      return showAlert.error('بيانات ناقصة', 'يرجى إكمال جميع بيانات السوبر ماركت');
+      return showAlert.error(
+        'بيانات ناقصة',
+        'يرجى إكمال جميع بيانات السوبر ماركت'
+      );
     }
 
     try {
@@ -67,7 +73,10 @@ const RegisterOwner = () => {
 
       login(response.user, response.token);
 
-      await showAlert.success('عملية ناجحة!', response.message || 'تم تأسيس النظام بنجاح!');
+      await showAlert.success(
+        'عملية ناجحة!',
+        response.message || 'تم تأسيس النظام بنجاح!'
+      );
       navigate('/owner/dashboard');
     } catch (error) {
       showAlert.error('فشل التأسيس', error.message);
@@ -78,40 +87,67 @@ const RegisterOwner = () => {
 
   return (
     <div className="h-[100dvh] w-full flex items-center justify-center p-0 md:p-4 arabic-direct bg-slate-50 dark:bg-slate-950 overflow-hidden transition-colors duration-300">
-      
       <div className="w-full h-full md:h-auto md:max-w-md bg-white dark:bg-slate-900 md:rounded-[40px] overflow-hidden shadow-indigo-100 dark:shadow-none md:shadow-2xl relative flex flex-col justify-between animate-slide-up-fade border border-transparent dark:border-slate-800 transition-colors duration-300">
-        
         <div className="flex-grow flex flex-col justify-center">
-          
           <div className="absolute top-0 left-0 w-full h-[110px] z-0 pointer-events-none opacity-100 dark:opacity-80 transition-opacity">
-            <svg viewBox="0 0 500 150" preserveAspectRatio="none" className="h-full w-full">
+            <svg
+              viewBox="0 0 500 150"
+              preserveAspectRatio="none"
+              className="h-full w-full"
+            >
               <defs>
-                <linearGradient id="gradient-reg" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" style={{ stopColor: '#4f46e5', stopOpacity: 1 }} />
-                  <stop offset="100%" style={{ stopColor: '#312e81', stopOpacity: 1 }} />
+                <linearGradient
+                  id="gradient-reg"
+                  x1="0%"
+                  y1="0%"
+                  x2="100%"
+                  y2="0%"
+                >
+                  <stop
+                    offset="0%"
+                    style={{ stopColor: '#4f46e5', stopOpacity: 1 }}
+                  />
+                  <stop
+                    offset="100%"
+                    style={{ stopColor: '#312e81', stopOpacity: 1 }}
+                  />
                 </linearGradient>
               </defs>
-              <path d="M0.00,49.98 C149.99,150.00 349.20,-49.98 500.00,49.98 L500.00,0.00 L0.00,0.00 Z" style={{ stroke: 'none', fill: 'url(#gradient-reg)' }}></path>
+              <path
+                d="M0.00,49.98 C149.99,150.00 349.20,-49.98 500.00,49.98 L500.00,0.00 L0.00,0.00 Z"
+                style={{ stroke: 'none', fill: 'url(#gradient-reg)' }}
+              ></path>
             </svg>
           </div>
 
           <div className="relative z-10 text-center mt-6 mb-4 px-8 md:px-14">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white dark:bg-slate-800 p-2 mb-2 shadow-xl shadow-indigo-100 dark:shadow-indigo-900/20 border border-slate-100 dark:border-slate-700 transition-colors">
-              <img src={logoUrl} alt="دكاني" className="w-10 h-10 object-contain" />
+              <img
+                src={logoImg}
+                alt="لوجو دكاني"
+                /* 🚀 أضفنا shrink-0 هنا لنجبر النظام على احترام الحجم */
+                className="w-50 h-25 object-contain shrink-0 drop-shadow-md transition-transform hover:scale-105"
+              />{' '}
             </div>
             <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight transition-colors">
               تأسيس مؤسسة
             </h2>
-            
+
             {/* مؤشر الخطوات المظلم/المضيء */}
             <div className="flex items-center justify-center gap-2 mt-2">
-              <div className={`h-1.5 rounded-full transition-all duration-500 ${step === 1 ? 'w-8 bg-indigo-600 dark:bg-indigo-500' : 'w-2 bg-slate-200 dark:bg-slate-700'}`}></div>
-              <div className={`h-1.5 rounded-full transition-all duration-500 ${step === 2 ? 'w-8 bg-indigo-600 dark:bg-indigo-500' : 'w-2 bg-slate-200 dark:bg-slate-700'}`}></div>
+              <div
+                className={`h-1.5 rounded-full transition-all duration-500 ${step === 1 ? 'w-8 bg-indigo-600 dark:bg-indigo-500' : 'w-2 bg-slate-200 dark:bg-slate-700'}`}
+              ></div>
+              <div
+                className={`h-1.5 rounded-full transition-all duration-500 ${step === 2 ? 'w-8 bg-indigo-600 dark:bg-indigo-500' : 'w-2 bg-slate-200 dark:bg-slate-700'}`}
+              ></div>
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="px-8 mb-2 flex-grow flex flex-col justify-center">
-            
+          <form
+            onSubmit={handleSubmit}
+            className="px-8 mb-2 flex-grow flex flex-col justify-center"
+          >
             {step === 1 && (
               <div className="space-y-4 animate-fade-in-rapid">
                 <h3 className="text-xs font-bold text-slate-500 dark:text-slate-400 mb-1 text-center transition-colors">
@@ -119,7 +155,10 @@ const RegisterOwner = () => {
                 </h3>
 
                 <div className="space-y-1 group">
-                  <label htmlFor="owner_name" className="block text-sm font-black text-slate-700 dark:text-slate-300 pr-2 transition-colors">
+                  <label
+                    htmlFor="owner_name"
+                    className="block text-sm font-black text-slate-700 dark:text-slate-300 pr-2 transition-colors"
+                  >
                     الاسم الرباعي
                   </label>
                   <div className="relative">
@@ -137,7 +176,10 @@ const RegisterOwner = () => {
                 </div>
 
                 <div className="space-y-1 group">
-                  <label htmlFor="phone" className="block text-sm font-black text-slate-700 dark:text-slate-300 pr-2 transition-colors">
+                  <label
+                    htmlFor="phone"
+                    className="block text-sm font-black text-slate-700 dark:text-slate-300 pr-2 transition-colors"
+                  >
                     رقم الهاتف
                   </label>
                   <div className="relative">
@@ -156,7 +198,10 @@ const RegisterOwner = () => {
                 </div>
 
                 <div className="space-y-1 group">
-                  <label htmlFor="password" className="block text-sm font-black text-slate-700 dark:text-slate-300 pr-2 transition-colors">
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-black text-slate-700 dark:text-slate-300 pr-2 transition-colors"
+                  >
                     كلمة المرور الآمنة
                   </label>
                   <div className="relative">
@@ -191,7 +236,10 @@ const RegisterOwner = () => {
                 </h3>
 
                 <div className="space-y-1 group">
-                  <label htmlFor="organization_name" className="block text-sm font-black text-slate-700 dark:text-slate-300 pr-2 transition-colors">
+                  <label
+                    htmlFor="organization_name"
+                    className="block text-sm font-black text-slate-700 dark:text-slate-300 pr-2 transition-colors"
+                  >
                     اسم المؤسسة
                   </label>
                   <div className="relative">
@@ -209,7 +257,10 @@ const RegisterOwner = () => {
                 </div>
 
                 <div className="space-y-1 group">
-                  <label htmlFor="branch_name" className="block text-sm font-black text-slate-700 dark:text-slate-300 pr-2 transition-colors">
+                  <label
+                    htmlFor="branch_name"
+                    className="block text-sm font-black text-slate-700 dark:text-slate-300 pr-2 transition-colors"
+                  >
                     اسم الفرع
                   </label>
                   <div className="relative">
@@ -227,7 +278,10 @@ const RegisterOwner = () => {
                 </div>
 
                 <div className="space-y-1 group">
-                  <label htmlFor="branch_location" className="block text-sm font-black text-slate-700 dark:text-slate-300 pr-2 transition-colors">
+                  <label
+                    htmlFor="branch_location"
+                    className="block text-sm font-black text-slate-700 dark:text-slate-300 pr-2 transition-colors"
+                  >
                     الموقع
                   </label>
                   <div className="relative">
@@ -259,7 +313,11 @@ const RegisterOwner = () => {
                     disabled={isLoading}
                     className="w-2/3 flex items-center justify-center gap-2 py-3.5 bg-indigo-600 dark:bg-indigo-500 text-white font-black rounded-2xl shadow-lg shadow-indigo-500/30 dark:shadow-none hover:bg-indigo-700 dark:hover:bg-indigo-600 active:scale-95 transition-all disabled:opacity-70 disabled:cursor-not-allowed"
                   >
-                    {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <UserPlus className="w-5 h-5" />}
+                    {isLoading ? (
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                    ) : (
+                      <UserPlus className="w-5 h-5" />
+                    )}
                     {isLoading ? 'جاري التأسيس...' : 'تأسيس'}
                   </button>
                 </div>
@@ -277,7 +335,6 @@ const RegisterOwner = () => {
             العودة لتسجيل الدخول
           </Link>
         </div>
-
       </div>
     </div>
   );
