@@ -8,7 +8,7 @@ const SOCKET_URL = import.meta.env.VITE_API_URL
   ? import.meta.env.VITE_API_URL.replace('/api', '')
   : 'http://localhost:5000';
 
-// تعريف الثوابت لمنع الأخطاء الإملائية (Best Practice)
+// تعريف الثوابت لمنع الأخطاء الإملائية 
 const STORAGE_KEYS = {
   TOKEN: 'dokkany_token',
   REFRESH_TOKEN: 'dokkany_refresh_token',
