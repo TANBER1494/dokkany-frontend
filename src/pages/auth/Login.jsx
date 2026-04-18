@@ -98,13 +98,18 @@ const Login = () => {
             <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white dark:bg-slate-800 p-2 mb-4 shadow-xl shadow-indigo-100 dark:shadow-indigo-900/20 border border-slate-100 dark:border-slate-700 transition-colors">
               <img
                 src={logoImg}
-                alt="لوجو دكاني"
-                /* 🚀 أضفنا shrink-0 هنا لنجبر النظام على احترام الحجم */
-                className="w-50 h-25 object-contain shrink-0 drop-shadow-md transition-transform hover:scale-105"
+                alt="دكاني"
+                style={{
+                  width: '130px', 
+                  height: 'auto', 
+                  minWidth: '110px', 
+                  display: 'block',
+                }}
+                className="object-contain drop-shadow-md"
               />
             </div>
             <h2 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-              الدخول الآمن
+              تسجيل الدخول{' '}
             </h2>
             <p className="text-slate-500 dark:text-slate-400 mt-1 text-sm font-bold">
               أدخل بياناتك للوصول لنظامك

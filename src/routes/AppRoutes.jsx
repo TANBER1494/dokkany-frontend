@@ -36,19 +36,23 @@ const AdminUsers = lazy(() => import('../pages/admin/AdminUsers'));
 const AdminBranches = lazy(() => import('../pages/admin/AdminBranches'));
 const AdminSettings = lazy(() => import('../pages/admin/AdminSettings'));
 
-// مكون SplashScreen
-// مكون SplashScreen بالديزاين الجديد (Minimalist Blue)
+
 // 🚀 1. شاشة الـ SplashScreen مع دعم كامل للوضع الليلي
 const SplashScreen = ({ onStart }) => {
-  const logoImg = '../../src/assets/images/logo.png'; // تأكد من مسار الصورة الصحيح
-  
+  // 🚨 تم حذف السطر الكارثي الذي كان هنا (const logoImg = ...)
+
   return (
-    // إضافة كلاسات الـ dark:bg-slate-950 وغيرها للوضع الليلي
     <div className="fixed inset-0 bg-white dark:bg-slate-950 z-[100000] flex flex-col items-center justify-between p-6 sm:p-10 animate-fade-in overflow-hidden arabic-direct transition-colors">
       
       <div className="flex-1 flex flex-col items-center justify-center w-full max-w-sm mt-10">
         <div className="w-full aspect-square max-h-[250px] relative flex items-center justify-center mb-10">
-           <img src={logoImg} alt="دكاني" className="w-120 h-120 object-contain animate-float drop-shadow-xl" />
+           {/* 🚀 اللوجو بالحجم الصارم ويقرأ من الاستيراد الرسمي */}
+           <img 
+             src={logoImg} 
+             alt="دكاني" 
+             style={{ width: '180px', height: 'auto', display: 'block' }} 
+             className="object-contain animate-float drop-shadow-xl shrink-0" 
+           />
         </div>
 
         <div className="flex items-center gap-2 mb-8">
