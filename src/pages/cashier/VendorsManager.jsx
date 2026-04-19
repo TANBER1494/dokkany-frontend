@@ -562,7 +562,7 @@ const VendorsManager = () => {
                                     </p>
                                     {trx.type === 'INVOICE' && trx.paid_at_time > 0 && (
                                       <p className="text-[9px] sm:text-[10px] font-bold text-slate-500 dark:text-slate-400 mt-1.5 bg-slate-50 dark:bg-slate-900/50 inline-block px-2 py-1 rounded-md border border-slate-100 dark:border-slate-700 print:bg-white print:border-dashed print-text-black">
-                                        إجمالي: {trx.amount} | <span className="text-emerald-600 dark:text-emerald-400 print-text-black">م. وقت الاستلام: {trx.paid_at_time}</span> | <span className="text-rose-500 dark:text-rose-400 print-text-black">باقي: {trx.remaining}</span>
+                                        إجمالي: {trx.amount} | <span className="text-emerald-600 dark:text-emerald-400 print-text-black">دفع وقت الاستلام: {trx.paid_at_time}</span> | <span className="text-rose-500 dark:text-rose-400 print-text-black">باقي: {trx.remaining}</span>
                                       </p>
                                     )}
                                     {trx.notes && (
