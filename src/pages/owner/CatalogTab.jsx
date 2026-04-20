@@ -450,12 +450,14 @@ const CatalogTab = ({ branchId }) => {
       {/* مودال إضافة/تعديل قسم */}
       <AnimatePresence>
         {isCategoryModalOpen && (
-          <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-slate-900/40 dark:bg-slate-900/80 backdrop-blur-sm">
-            <motion.div
-              initial={{ scale: 0.95, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.95, y: 20 }}
-              className="relative w-full max-w-sm bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-100 dark:border-slate-700 overflow-hidden transition-colors"
+          <div className="fixed inset-0 z-[9999] flex flex-col justify-end sm:justify-center sm:items-center bg-slate-900/60 dark:bg-slate-900/80 backdrop-blur-sm p-0 sm:p-4 overflow-y-auto">
+            <div className="absolute inset-0 z-0" onClick={() => { setIsCategoryModalOpen(false); setIsCategoryEdit(false); }}></div>
+            <motion.div 
+              initial={{ y: '100%' }} 
+              animate={{ y: 0 }} 
+              exit={{ y: '100%' }} 
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }} 
+              className="relative w-full sm:max-w-md bg-white dark:bg-slate-800 rounded-t-[32px] sm:rounded-[32px] shadow-2xl overflow-hidden flex flex-col border-t sm:border border-slate-100 dark:border-slate-700 transition-colors z-10"
             >
               <div className="flex items-center justify-between p-5 border-b border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 shrink-0 transition-colors">
                 <h3 className="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
@@ -533,12 +535,14 @@ const CatalogTab = ({ branchId }) => {
       {/* مودال إضافة/تعديل صنف */}
       <AnimatePresence>
         {isProductModalOpen && (
-          <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-slate-900/50 dark:bg-slate-900/80 backdrop-blur-sm">
-            <motion.div
-              initial={{ scale: 0.95, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.95, y: 20 }}
-              className="relative w-full max-w-lg bg-white dark:bg-slate-800 rounded-[24px] shadow-2xl border border-slate-100 dark:border-slate-700 overflow-hidden flex flex-col max-h-[90vh] transition-colors"
+          <div className="fixed inset-0 z-[9999] flex flex-col justify-end sm:justify-center sm:items-center bg-slate-900/60 dark:bg-slate-900/80 backdrop-blur-sm p-0 sm:p-4 overflow-hidden">
+            <div className="absolute inset-0 z-0" onClick={() => { !isSubmitting && setIsProductModalOpen(false); setIsProductEdit(false); }}></div>
+            <motion.div 
+              initial={{ y: '100%' }} 
+              animate={{ y: 0 }} 
+              exit={{ y: '100%' }} 
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }} 
+              className="relative w-full sm:max-w-lg bg-white dark:bg-slate-800 rounded-t-[32px] sm:rounded-[32px] shadow-2xl flex flex-col max-h-[90vh] sm:max-h-[90vh] overflow-hidden border-t sm:border border-slate-100 dark:border-slate-700 transition-colors z-10"
             >
               <div className="flex items-center justify-between p-5 border-b border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 shrink-0 transition-colors">
                 <h3 className="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">

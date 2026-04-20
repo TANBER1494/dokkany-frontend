@@ -183,10 +183,10 @@ const BranchEmployees = () => {
       <div className="bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 p-5 rounded-[24px] shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 transition-colors">
         <div>
           <h2 className="text-xl font-black text-slate-800 dark:text-white tracking-tight">
-            فريق العمل
+           العمال
           </h2>
           <p className="text-xs font-bold text-slate-500 dark:text-slate-400 mt-1">
-            إدارة العمال، الكاشيرية، ومحاسبة الرواتب
+            إدارة العمال، ومحاسبة الرواتب
           </p>
         </div>
         <button
@@ -196,7 +196,7 @@ const BranchEmployees = () => {
           }}
           className="w-full sm:w-auto flex items-center justify-center gap-2 bg-indigo-600 dark:bg-indigo-500 text-white px-5 py-3 rounded-xl font-bold shadow-md shadow-indigo-500/20 dark:shadow-none hover:bg-indigo-700 dark:hover:bg-indigo-600 active:scale-95 transition-all text-sm"
         >
-          <UserPlus className="w-4 h-4" /> إضافة موظف جديد
+          <UserPlus className="w-4 h-4" /> إضافة عامل جديد
         </button>
       </div>
 
@@ -270,8 +270,15 @@ const BranchEmployees = () => {
 
       <AnimatePresence>
         {isPayrollModalOpen && selectedPayrollEmp && (
-          <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-slate-900/60 dark:bg-slate-900/80 backdrop-blur-sm">
-            <motion.div initial={{ scale: 0.95, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 20 }} className="relative w-full max-w-lg bg-white dark:bg-slate-800 rounded-[32px] shadow-2xl flex flex-col max-h-[90vh] overflow-hidden border border-slate-100 dark:border-slate-700 transition-colors">
+          <div className="fixed inset-0 z-[9999] flex flex-col justify-end sm:justify-center sm:items-center bg-slate-900/60 dark:bg-slate-900/80 backdrop-blur-sm p-0 sm:p-4 overflow-hidden">
+            <div className="absolute inset-0 z-0" onClick={() => setIsPayrollModalOpen(false)}></div>
+            <motion.div 
+              initial={{ y: '100%' }} 
+              animate={{ y: 0 }} 
+              exit={{ y: '100%' }} 
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }} 
+              className="relative w-full sm:max-w-lg bg-white dark:bg-slate-800 rounded-t-[32px] sm:rounded-[32px] shadow-2xl flex flex-col max-h-[90vh] sm:max-h-[90vh] overflow-hidden border-t sm:border border-slate-100 dark:border-slate-700 transition-colors z-10"
+            >
               
               <div className="p-5 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-800/50 shrink-0">
                 <div>
@@ -390,8 +397,15 @@ const BranchEmployees = () => {
 
       <AnimatePresence>
         {(isModalOpen || isEditOpen) && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-slate-900/40 dark:bg-slate-900/80 backdrop-blur-sm">
-            <motion.div initial={{ scale: 0.95, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.95, y: 20 }} className="relative w-full max-w-md bg-white dark:bg-slate-800 rounded-[32px] shadow-2xl border border-slate-100 dark:border-slate-700 overflow-hidden">
+          <div className="fixed inset-0 z-[9999] flex flex-col justify-end sm:justify-center sm:items-center bg-slate-900/60 dark:bg-slate-900/80 backdrop-blur-sm p-0 sm:p-4 overflow-hidden">
+            <div className="absolute inset-0 z-0" onClick={() => !isLoading && (isEditOpen ? setIsEditOpen(false) : setIsModalOpen(false))}></div>
+            <motion.div 
+              initial={{ y: '100%' }} 
+              animate={{ y: 0 }} 
+              exit={{ y: '100%' }} 
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }} 
+              className="relative w-full sm:max-w-md bg-white dark:bg-slate-800 rounded-t-[32px] sm:rounded-[32px] shadow-2xl flex flex-col border-t sm:border border-slate-100 dark:border-slate-700 overflow-hidden z-10"
+            >
               
               <div className="flex items-center justify-between p-5 border-b border-slate-50 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50">
                 <h3 className="text-lg font-black text-slate-800 dark:text-white">
@@ -469,7 +483,7 @@ const BranchEmployees = () => {
                 </button>
               </div>
             </motion.div>
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </div>

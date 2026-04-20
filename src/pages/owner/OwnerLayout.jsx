@@ -72,7 +72,7 @@ const OwnerLayout = () => {
   ];
 
   const handleLogout = () => {
-    showAlert.success('إلى اللقاء', 'تم تسجيل خروجك بأمان').then(() => {
+    showAlert.success('إلى اللقاء', 'تم تسجيل الخروج من الحساب ').then(() => {
       logout();
       navigate('/login');
     });

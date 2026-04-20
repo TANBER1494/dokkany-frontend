@@ -26,8 +26,8 @@ import platformPaymentService from '../../services/platformPaymentService';
 
 const SUBSCRIPTION_PACKAGES = [
   { months: 1, price: 500, title: 'باقة شهرية', discount: null },
-  { months: 3, price: 1350, title: 'باقة ربع سنوية', discount: 'توفير 10%' },
-  { months: 9, price: 3800, title: 'باقة 9 شهور', discount: 'توفير 15%' },
+  { months: 3, price: 1350, title: 'باقة 3 شهور', discount: 'توفير 150 جنيه' },
+  { months: 9, price: 3800, title: 'باقة 9 شهور', discount: 'توفير 700 جنيه' },
 ];
 
 const VODAFONE_CASH_NUMBERS = ['01112793953', '01032716249'];
@@ -158,7 +158,7 @@ const SubscriptionsManager = () => {
           </button>
           <div>
             <h2 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white flex items-center gap-2">
-              <CreditCard className="w-6 h-6 text-indigo-600 dark:text-indigo-400" /> الاشتراكات والفوترة
+              <CreditCard className="w-6 h-6 text-indigo-600 dark:text-indigo-400" /> الاشتراكات 
             </h2>
             <p className="text-[10px] sm:text-xs font-bold text-slate-400 dark:text-slate-500 mt-0.5">
               متابعة حالة اشتراك الفروع وتاريخ التجديدات
@@ -335,7 +335,7 @@ const SubscriptionsManager = () => {
                 <div className="bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-indigo-500/10 dark:to-blue-500/10 border border-indigo-100 dark:border-indigo-500/20 p-5 rounded-[24px] transition-colors">
                   <p className="text-xs sm:text-sm font-black text-indigo-900 dark:text-indigo-300 mb-3">خطوات الدفع (المحافظ الإلكترونية):</p>
                   <ul className="text-[11px] sm:text-xs font-bold text-indigo-700 dark:text-indigo-400 space-y-3">
-                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-indigo-400 dark:bg-indigo-500 rounded-full"></div> حول قيمة الباقة لأي من الأرقام المعتمدة:</li>
+                    <li className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-indigo-400 dark:bg-indigo-500 rounded-full"></div> حول قيمة الباقة لرقم من دول   :</li>
                     <div className="flex flex-wrap gap-2 my-2">
                        {VODAFONE_CASH_NUMBERS.map(n => (
                          <span key={n} className="bg-white dark:bg-slate-800 px-3 py-1.5 rounded-lg border border-indigo-200 dark:border-indigo-500/30 shadow-sm font-black text-indigo-900 dark:text-indigo-300 select-all tracking-wider transition-colors">{n}</span>
@@ -416,7 +416,7 @@ const SubscriptionsManager = () => {
                       ) : (
                         <div className="flex flex-col items-center">
                           <UploadCloud className="w-10 h-10 text-slate-300 dark:text-slate-600 mb-3" />
-                          <p className="font-black text-slate-600 dark:text-slate-400 text-sm">اضغط هنا لرفع الإيصال</p>
+                          <p className="font-black text-slate-600 dark:text-slate-400 text-sm">دوس هنا لرفع الإيصال</p>
                           <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-1 uppercase font-bold tracking-tighter">JPEG, PNG ARE SUPPORTED</p>
                         </div>
                       )}

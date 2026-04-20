@@ -227,7 +227,7 @@ const OwnerSettings = () => {
       <div className="mb-8 px-2">
         <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-3">
           <Settings className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />{' '}
-          إعدادات النظام المركزية
+          إعدادات النظام 
         </h2>
         <p className="text-sm font-bold text-slate-500 dark:text-slate-400 mt-2 sm:mr-11">
           تحكم في حسابك، حدد ضوابط مسح الفواتير للكاشير، وراقب العمليات لحظة
@@ -249,7 +249,7 @@ const OwnerSettings = () => {
             <div className="space-y-4">
               <h4 className="text-sm font-black text-slate-800 dark:text-white flex items-center gap-2">
                 <Smartphone className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />{' '}
-                تغيير رقم الهاتف
+                تغيير رقم الموبايل
               </h4>
               <form
                 onSubmit={handleUpdatePhone}
@@ -283,7 +283,7 @@ const OwnerSettings = () => {
             <div className="space-y-4">
               <h4 className="text-sm font-black text-slate-800 dark:text-white flex items-center gap-2">
                 <Lock className="w-4 h-4 text-rose-500 dark:text-rose-400" />{' '}
-                تغيير كلمة المرور
+                تغيير كلمة السر
               </h4>
               <form
                 onSubmit={handleUpdatePassword}
@@ -335,7 +335,7 @@ const OwnerSettings = () => {
                   disabled={isPasswordSaving}
                   className="w-full py-4 bg-slate-800 dark:bg-indigo-600 text-white hover:bg-slate-900 dark:hover:bg-indigo-700 font-bold rounded-xl flex items-center justify-center gap-2 transition-all active:scale-95 text-sm"
                 >
-                  تحديث الأمان
+                  تحديث 
                 </button>
               </form>
             </div>
@@ -361,8 +361,7 @@ const OwnerSettings = () => {
                     المهلة الزمنية الدائمة
                   </h4>
                   <p className="text-[11px] font-bold text-slate-500 dark:text-slate-400 mt-1 mb-4 leading-relaxed">
-                    الوقت المسموح به للكاشير لمسح الفاتورة فور إصدارها (حق طبيعي
-                    لتعديل الخطأ السريع).
+                    الوقت المسموح به للكاشير لمسح الفاتورة او تعديلها فور إصدارها 
                   </p>
                 </div>
                 <div className="flex items-center gap-3 bg-white dark:bg-slate-800 p-3 rounded-2xl border border-slate-100 dark:border-slate-600 shadow-sm w-fit transition-colors">
@@ -402,8 +401,8 @@ const OwnerSettings = () => {
                     className={`text-[11px] font-bold mt-1.5 leading-relaxed ${isDeletionAllowed ? 'text-amber-700 dark:text-amber-400' : 'text-slate-500 dark:text-slate-400'}`}
                   >
                     {isDeletionAllowed
-                      ? 'مفتوح الآن: الكاشير يستطيع مسح أي فاتورة حتى لو انتهت المهلة. (لا تنسَ إغلاقه بعد الانتهاء).'
-                      : 'مغلق: لا يمكن للكاشير تجاوز المهلة الزمنية المحددة مهما حاول.'}
+                      ? 'مفتوح الآن: الكاشير يقدر يمسح او يعدل أي فاتورة . (لا تنسَ إغلاقه بعد الانتهاء).'
+                      : 'مغلق: الكاشير ميقدرش يعدل علي اي فاتورة بعد انتهاء مهله ال 15 دقيقه'}
                   </p>
                 </div>
                 <div className="mt-4">
@@ -427,7 +426,7 @@ const OwnerSettings = () => {
                 ) : (
                   <Save className="w-5 h-5" />
                 )}{' '}
-                حفظ ضوابط الرقابة
+                حفظ الاعدادت 
               </button>
             </div>
           </div>
@@ -476,7 +475,7 @@ const OwnerSettings = () => {
                 <div className="flex items-center justify-between p-4 bg-slate-50/80 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-slate-700 transition-colors">
                   <div>
                     <span className="block text-sm font-bold text-slate-800 dark:text-white">
-                      استلام الوردية (بصمة الحضور)
+                      استلام الوردية 
                     </span>
                     <span className="text-[10px] text-slate-500 dark:text-slate-400 font-bold mt-0.5 block">
                       تنبيه عند استلام الدرج وبداية الوردية

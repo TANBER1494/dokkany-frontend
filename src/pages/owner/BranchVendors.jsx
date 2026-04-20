@@ -117,7 +117,9 @@ const BranchVendors = ({ branchId }) => {
 
       <AnimatePresence>
         {isStatementPanelOpen && (
-          <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-slate-900/60 dark:bg-slate-900/80 backdrop-blur-sm print:p-0 print:bg-white print:block">
+          
+          <div className="fixed inset-0 z-[9999] flex flex-col justify-end sm:justify-center sm:items-center bg-slate-900/60 dark:bg-slate-900/80 backdrop-blur-sm p-0 sm:p-4 print:p-0 print:bg-white print:block overflow-hidden">
+            <div className="absolute inset-0 z-0 hide-on-print" onClick={() => setIsStatementPanelOpen(false)}></div>
             
             <style media="print">
               {`
@@ -143,10 +145,11 @@ const BranchVendors = ({ branchId }) => {
             </style>
 
             <motion.div 
-              initial={{ scale: 0.95, opacity: 0, y: 20 }} 
-              animate={{ scale: 1, opacity: 1, y: 0 }} 
-              exit={{ scale: 0.95, opacity: 0, y: 20 }} 
-              className="printable-document relative w-full max-w-2xl bg-white dark:bg-slate-800 rounded-[32px] shadow-2xl flex flex-col max-h-[90vh] overflow-hidden border border-slate-100 dark:border-slate-700 print:max-h-none print:overflow-visible transition-colors"
+              initial={{ y: '100%' }} 
+              animate={{ y: 0 }} 
+              exit={{ y: '100%' }} 
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }} 
+              className="printable-document bg-white dark:bg-slate-900 w-full sm:max-w-2xl flex flex-col shadow-2xl rounded-t-[32px] sm:rounded-[32px] max-h-[90vh] sm:max-h-[85vh] relative z-10 border-t sm:border border-slate-200 dark:border-slate-800 overflow-hidden print:max-h-none print:border-none"
             >
               
               <div className="hide-on-print p-5 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-800/50 shrink-0">

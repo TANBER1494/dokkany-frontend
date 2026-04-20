@@ -79,7 +79,7 @@ const RegisterOwner = () => {
       );
       navigate('/owner/dashboard');
     } catch (error) {
-      showAlert.error('فشل التأسيس', error.message);
+      showAlert.error('فشل الانشاء', error.message);
     } finally {
       setIsLoading(false);
     }
@@ -135,7 +135,7 @@ const RegisterOwner = () => {
               />{' '}
             </div>
             <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight transition-colors">
-              تأسيس مؤسسة
+             انشاء حساب جديد  
             </h2>
 
             {/* مؤشر الخطوات المظلم/المضيء */}
@@ -164,7 +164,7 @@ const RegisterOwner = () => {
                     htmlFor="owner_name"
                     className="block text-sm font-black text-slate-700 dark:text-slate-300 pr-2 transition-colors"
                   >
-                    الاسم الرباعي
+                    الاسم 
                   </label>
                   <div className="relative">
                     <User className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500 group-focus-within:text-indigo-600 dark:group-focus-within:text-indigo-400 z-10 transition-colors" />
@@ -185,7 +185,7 @@ const RegisterOwner = () => {
                     htmlFor="phone"
                     className="block text-sm font-black text-slate-700 dark:text-slate-300 pr-2 transition-colors"
                   >
-                    رقم الهاتف
+                    رقم الموبايل
                   </label>
                   <div className="relative">
                     <Phone className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500 group-focus-within:text-indigo-600 dark:group-focus-within:text-indigo-400 z-10 transition-colors" />
@@ -207,7 +207,7 @@ const RegisterOwner = () => {
                     htmlFor="password"
                     className="block text-sm font-black text-slate-700 dark:text-slate-300 pr-2 transition-colors"
                   >
-                    كلمة المرور الآمنة
+                    كلمة السر / الـ PIN 
                   </label>
                   <div className="relative">
                     <Lock className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500 group-focus-within:text-indigo-600 dark:group-focus-within:text-indigo-400 z-10 transition-colors" />
@@ -245,7 +245,7 @@ const RegisterOwner = () => {
                     htmlFor="organization_name"
                     className="block text-sm font-black text-slate-700 dark:text-slate-300 pr-2 transition-colors"
                   >
-                    اسم المؤسسة
+                    اسم المحل
                   </label>
                   <div className="relative">
                     <Building2 className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500 group-focus-within:text-indigo-600 dark:group-focus-within:text-indigo-400 z-10 transition-colors" />
@@ -323,7 +323,7 @@ const RegisterOwner = () => {
                     ) : (
                       <UserPlus className="w-5 h-5" />
                     )}
-                    {isLoading ? 'جاري التأسيس...' : 'تأسيس'}
+                    {isLoading ? 'جاري التأسيس...' : 'انشاء'}
                   </button>
                 </div>
               </div>

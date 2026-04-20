@@ -47,7 +47,7 @@ const OwnerDashboard = () => {
         <div className="bg-white dark:bg-slate-800 p-6 rounded-[28px] border border-slate-100 dark:border-slate-700 shadow-sm flex items-center justify-between overflow-hidden relative transition-colors">
           <div className="absolute -left-2 -top-2 w-24 h-24 bg-emerald-50 dark:bg-emerald-900/20 rounded-full blur-3xl opacity-50"></div>
           <div>
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1">إجمالي مستحقاتنا (زبائن)</p>
+            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1">إجمالي الفلوس اللي ليك عند  (الزباين)</p>
             <h3 className="text-3xl font-black text-slate-900 dark:text-white">
               {grand_totals.total_market_debts_for_us.toLocaleString()}{' '}
               <span className="text-sm font-bold text-slate-400">ج.م</span>
@@ -61,7 +61,7 @@ const OwnerDashboard = () => {
         <div className="bg-white dark:bg-slate-800 p-6 rounded-[28px] border border-slate-100 dark:border-slate-700 shadow-sm flex items-center justify-between overflow-hidden relative transition-colors">
           <div className="absolute -left-2 -top-2 w-24 h-24 bg-rose-50 dark:bg-rose-900/20 rounded-full blur-3xl opacity-50"></div>
           <div>
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1">إجمالي التزاماتنا (موردين)</p>
+            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1">إجمالي الفلوس اللي عليك  (للمناديب)</p>
             <h3 className="text-3xl font-black text-slate-900 dark:text-white">
               {grand_totals.total_market_debts_on_us.toLocaleString()}{' '}
               <span className="text-sm font-bold text-slate-400">ج.م</span>
@@ -77,7 +77,7 @@ const OwnerDashboard = () => {
       <div className="flex items-center justify-between px-2">
         <div className="flex items-center gap-2">
           <Building className="w-5 h-5 text-slate-400" />
-          <h2 className="text-lg font-black text-slate-800 dark:text-white">حالة الفروع المستقلة</h2>
+          <h2 className="text-lg font-black text-slate-800 dark:text-white">حالات الفروع بتاعتك </h2>
         </div>
         <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full">
           {branches.length} فروع مسجلة
@@ -136,11 +136,11 @@ const OwnerDashboard = () => {
               {/* ديون الموردين والزبائن */}
               <div className="grid grid-cols-2 divide-x divide-x-reverse divide-slate-50 dark:divide-slate-700/50 bg-white dark:bg-slate-800 border-b border-slate-50 dark:border-slate-700/50">
                 <div className="p-5 text-center">
-                  <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">لنا (زبائن)</p>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">ليك عند ال (زبائن)</p>
                   <p className="text-base font-black text-slate-800 dark:text-slate-200">{branch.debts_for_us.toLocaleString()} ج</p>
                 </div>
                 <div className="p-5 text-center">
-                  <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">علينا (موردين)</p>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase mb-1">عليك لل (موردين)</p>
                   <p className="text-base font-black text-slate-800 dark:text-slate-200">{branch.debts_on_us.toLocaleString()} ج</p>
                 </div>
               </div>
@@ -160,7 +160,7 @@ const OwnerDashboard = () => {
                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
                           <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-indigo-600 dark:bg-indigo-400"></span>
                         </span>
-                        <span className="text-[11px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">وردية نشطة الآن</span>
+                        <span className="text-[11px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">وردية شغاله دلوقتي</span>
                       </div>
                       <div className="text-[10px] font-bold text-slate-400 dark:text-slate-300 flex items-center gap-1 bg-slate-50 dark:bg-slate-800 px-2 py-0.5 rounded-md border border-slate-100 dark:border-slate-600">
                         <Clock className="w-3 h-3" /> {new Date(branch.active_shift.start_time).toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' })}

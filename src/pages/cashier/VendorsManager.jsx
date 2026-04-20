@@ -292,7 +292,7 @@ const VendorsManager = () => {
             </div>
             <div>
               <p className="text-[11px] sm:text-xs font-extrabold text-rose-600 dark:text-rose-400 mb-0.5 flex items-center gap-1">
-                <AlertCircle className="w-3.5 h-3.5" /> إجمالي الديون المستحقة للموردين والشركات
+                <AlertCircle className="w-3.5 h-3.5" /> إجمالي الديون اللي عليك للموردين 
               </p>
               <h4 className="text-2xl sm:text-3xl font-black text-rose-700 dark:text-rose-300 tracking-tight">
                 {totalDebt.toLocaleString()} <span className="text-sm font-bold opacity-80">ج.م</span>
@@ -363,14 +363,20 @@ const VendorsManager = () => {
       {typeof document !== 'undefined' && createPortal(
         <AnimatePresence>
           {isInvoiceModalOpen && (
-            <div className="fixed inset-0 z-[9999] flex items-start justify-center pt-8 sm:pt-16 px-4 pb-6 bg-slate-900/60 dark:bg-slate-900/80 backdrop-blur-sm overflow-y-auto">
+            <div className="fixed inset-0 z-[9999] flex flex-col justify-end sm:justify-center sm:items-center bg-slate-900/60 dark:bg-slate-900/80 backdrop-blur-sm p-0 sm:p-4 overflow-y-auto">
               <div className="absolute inset-0 z-0" onClick={() => setIsInvoiceModalOpen(false)}></div>
-              <motion.div initial={{ scale: 0.95, opacity: 0, y: -20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: -20 }} className="bg-white dark:bg-slate-900 rounded-[32px] w-full max-w-sm p-5 sm:p-6 shadow-2xl relative z-10 border border-slate-200 dark:border-slate-800">
+              <motion.div 
+                initial={{ y: '100%' }} 
+                animate={{ y: 0 }} 
+                exit={{ y: '100%' }} 
+                transition={{ type: 'spring', damping: 25, stiffness: 200 }} 
+                className="bg-white dark:bg-slate-900 w-full sm:max-w-sm rounded-t-[32px] sm:rounded-[32px] p-5 sm:p-6 shadow-2xl relative z-10 border-t sm:border border-slate-200 dark:border-slate-800"
+              >
                 <div className="flex justify-between items-center mb-5">
                   <div>
                     <h3 className="font-black text-lg sm:text-xl text-slate-800 dark:text-white flex items-center gap-2">
                       <Receipt className="text-blue-500 dark:text-blue-400 w-5 h-5" /> 
-                      {invoiceFormMode === 'ADD' ? 'تسجيل بضاعة' : 'تعديل الفاتورة'}
+                      {invoiceFormMode === 'ADD' ? 'تسجيل فاتورة' : 'تعديل الفاتورة'}
                     </h3>
                     <p className="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 mt-1">المورد: {selectedVendor?.name}</p>
                   </div>
@@ -394,13 +400,10 @@ const VendorsManager = () => {
                     )}
                   </div>
 
-                  <div className="space-y-1.5 border-t border-slate-100 dark:border-slate-800 pt-4">
-                    <label className="text-[11px] sm:text-xs font-bold text-slate-500 dark:text-slate-400">رقم الفاتورة الورقية (اختياري)</label>
-                    <input type="text" placeholder="مثال: #100234" dir="ltr" value={invoiceData.invoice_number} onChange={(e) => setInvoiceData({ ...invoiceData, invoice_number: e.target.value })} className="w-full py-3 px-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-xs sm:text-sm outline-none focus:border-blue-500 dark:focus:border-blue-400 transition-all text-left" />
-                  </div>
+                  
 
                   <div className="space-y-1.5">
-                    <label className="text-[11px] sm:text-xs font-bold text-slate-500 dark:text-slate-400">ملاحظات الفاتورة (اختياري)</label>
+                    <label className="text-[11px] sm:text-xs font-bold text-slate-500 dark:text-slate-400">ملاحظات الفاتورة </label>
                     <input type="text" placeholder="مثال: خصم خاص، بضاعة تالفة..." value={invoiceData.notes} onChange={(e) => setInvoiceData({ ...invoiceData, notes: e.target.value })} className="w-full py-3 px-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-xs sm:text-sm outline-none focus:border-blue-500 dark:focus:border-blue-400 transition-all" />
                   </div>
 
@@ -431,9 +434,15 @@ const VendorsManager = () => {
       {typeof document !== 'undefined' && createPortal(
         <AnimatePresence>
           {isPaymentModalOpen && (
-            <div className="fixed inset-0 z-[9999] flex items-start justify-center pt-12 sm:pt-16 px-4 pb-6 bg-slate-900/60 dark:bg-slate-900/80 backdrop-blur-sm overflow-y-auto">
+            <div className="fixed inset-0 z-[9999] flex flex-col justify-end sm:justify-center sm:items-center bg-slate-900/60 dark:bg-slate-900/80 backdrop-blur-sm p-0 sm:p-4 overflow-y-auto">
               <div className="absolute inset-0 z-0" onClick={() => setIsPaymentModalOpen(false)}></div>
-              <motion.div initial={{ scale: 0.95, opacity: 0, y: -20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: -20 }} className="bg-white dark:bg-slate-900 rounded-[32px] w-full max-w-sm p-5 sm:p-6 shadow-2xl relative z-10 border border-slate-200 dark:border-slate-800">
+              <motion.div 
+                initial={{ y: '100%' }} 
+                animate={{ y: 0 }} 
+                exit={{ y: '100%' }} 
+                transition={{ type: 'spring', damping: 25, stiffness: 200 }} 
+                className="bg-white dark:bg-slate-900 w-full sm:max-w-sm rounded-t-[32px] sm:rounded-[32px] p-5 sm:p-6 shadow-2xl relative z-10 border-t sm:border border-slate-200 dark:border-slate-800"
+              >
                 <div className="flex justify-between items-center mb-5">
                   <div>
                     <h3 className="font-black text-lg sm:text-xl text-emerald-600 dark:text-emerald-400 flex items-center gap-2"><Banknote className="w-5 h-5" /> سداد دفعة</h3>
@@ -445,7 +454,7 @@ const VendorsManager = () => {
                   
                   <div className="space-y-1.5">
                     <div className="flex justify-between items-center">
-                       <label className="text-[11px] sm:text-xs font-bold text-slate-500 dark:text-slate-400">المبلغ المُسدد من الدرج</label>
+                       <label className="text-[11px] sm:text-xs font-bold text-slate-500 dark:text-slate-400">المبلغ المدفوع من الدرج</label>
                        <span className="text-[9px] font-black text-rose-500 dark:text-rose-400 bg-rose-50 dark:bg-rose-500/10 px-2 py-0.5 rounded border border-rose-100 dark:border-rose-500/20">المستحق: {maxPaymentLimit.toLocaleString()} ج</span>
                     </div>
                     <input type="number" placeholder="0" dir="ltr" value={paymentData.amount} onChange={(e) => setPaymentData({ ...paymentData, amount: e.target.value })} className={`w-full py-3.5 rounded-xl border text-center text-2xl sm:text-3xl font-black outline-none transition-all ${isPaymentOverLimit ? 'border-rose-400 dark:border-rose-500 bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 focus:border-rose-500' : 'border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 focus:border-emerald-400 dark:focus:border-emerald-500'}`} />
@@ -458,13 +467,13 @@ const VendorsManager = () => {
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-[11px] sm:text-xs font-bold text-slate-500 dark:text-slate-400">بيان (اختياري)</label>
+                    <label className="text-[11px] sm:text-xs font-bold text-slate-500 dark:text-slate-400">بيان </label>
                     <input type="text" placeholder="مثال: دفعة من حساب قديم..." value={paymentData.notes} onChange={(e) => setPaymentData({ ...paymentData, notes: e.target.value })} className="w-full py-3 px-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-xs sm:text-sm outline-none focus:border-emerald-400 dark:focus:border-emerald-500 transition-colors" />
                   </div>
 
                   <button type="submit" disabled={isLoading || isPaymentOverLimit || paymentAmountNum <= 0} className={`w-full py-3.5 sm:py-4 mt-2 text-white font-black rounded-xl shadow-md active:scale-95 transition-all text-xs sm:text-sm flex items-center justify-center gap-2 ${isPaymentOverLimit || paymentAmountNum <= 0 ? 'bg-slate-400 dark:bg-slate-700 shadow-none cursor-not-allowed text-slate-200 dark:text-slate-500' : 'bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600 shadow-emerald-500/20 dark:shadow-none'}`}>
                     {isLoading ? <Loader2 className="animate-spin w-4 h-4 sm:w-5 sm:h-5" /> : <Wallet className="w-4 h-4 sm:w-5 sm:h-5" />}
-                    سحب المبلغ من الدرج
+                    دفع المبلغ من الدرج
                   </button>
                 </form>
               </motion.div>
@@ -480,7 +489,7 @@ const VendorsManager = () => {
       {typeof document !== 'undefined' && createPortal(
         <AnimatePresence>
           {isStatementPanelOpen && (
-            <div className="fixed inset-0 z-[9999] flex items-start justify-center pt-8 sm:pt-12 px-4 pb-6 bg-slate-900/60 dark:bg-slate-900/80 backdrop-blur-sm print:p-0 print:bg-white print:block overflow-hidden">
+            <div className="fixed inset-0 z-[9999] flex flex-col justify-end sm:justify-center sm:items-center bg-slate-900/60 dark:bg-slate-900/80 backdrop-blur-sm p-0 sm:p-4 print:p-0 print:bg-white print:block overflow-hidden">
               <div className="absolute inset-0 z-0 hide-on-print" onClick={() => setIsStatementPanelOpen(false)}></div>
               
               <style media="print">
@@ -500,7 +509,13 @@ const VendorsManager = () => {
                 `}
               </style>
 
-              <motion.div initial={{ scale: 0.95, opacity: 0, y: -20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: -20 }} className="printable-document relative bg-white dark:bg-slate-900 w-full max-w-2xl flex flex-col shadow-2xl rounded-[24px] sm:rounded-[32px] max-h-[85vh] border border-slate-100 dark:border-slate-800 z-10 overflow-hidden print:max-h-none print:border-none">
+              <motion.div 
+                initial={{ y: '100%' }} 
+                animate={{ y: 0 }} 
+                exit={{ y: '100%' }} 
+                transition={{ type: 'spring', damping: 25, stiffness: 200 }} 
+                className="printable-document bg-white dark:bg-slate-900 w-full sm:max-w-2xl flex flex-col shadow-2xl rounded-t-[32px] sm:rounded-[32px] max-h-[90vh] sm:max-h-[85vh] relative z-10 border-t sm:border border-slate-100 dark:border-slate-800 overflow-hidden print:max-h-none print:border-none"
+              >
                 
                 <div className="p-4 sm:p-5 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-800/50 shrink-0 hide-on-print">
                   <div>
@@ -628,9 +643,15 @@ const VendorsManager = () => {
       {typeof document !== 'undefined' && createPortal(
         <AnimatePresence>
           {isFormOpen && (
-            <div className="fixed inset-0 z-[9999] flex items-start justify-center pt-12 sm:pt-16 px-4 pb-6 bg-slate-900/60 dark:bg-slate-900/80 backdrop-blur-sm overflow-y-auto">
+            <div className="fixed inset-0 z-[9999] flex flex-col justify-end sm:justify-center sm:items-center bg-slate-900/60 dark:bg-slate-900/80 backdrop-blur-sm p-0 sm:p-4 overflow-y-auto">
               <div className="absolute inset-0 z-0" onClick={() => setIsFormOpen(false)}></div>
-              <motion.div initial={{ scale: 0.95, opacity: 0, y: -20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: -20 }} className="bg-white dark:bg-slate-900 w-full max-w-sm rounded-[32px] flex flex-col shadow-2xl relative z-10 border border-slate-200 dark:border-slate-800">
+              <motion.div 
+                initial={{ y: '100%' }} 
+                animate={{ y: 0 }} 
+                exit={{ y: '100%' }} 
+                transition={{ type: 'spring', damping: 25, stiffness: 200 }} 
+                className="bg-white dark:bg-slate-900 w-full sm:max-w-sm flex flex-col rounded-t-[32px] sm:rounded-[32px] shadow-2xl relative z-10 border-t sm:border border-slate-200 dark:border-slate-800"
+              >
                 <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-800/50">
                   <h3 className="font-black text-base text-slate-800 dark:text-white flex items-center gap-2">
                     <UserPlus className="w-4 h-4 text-blue-500 dark:text-blue-400" /> {formMode === 'ADD' ? 'إضافة مورد جديد' : 'تعديل بيانات المورد'}

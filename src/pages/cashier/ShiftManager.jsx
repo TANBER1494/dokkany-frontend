@@ -198,7 +198,7 @@ const ShiftManager = () => {
               <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-emerald-500 to-teal-400"></div>
 
               <div className="mb-6 text-center">
-                <h2 className="text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-2">إنهاء الوردية (الجرد الأعمى)</h2>
+                <h2 className="text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-2">  تسليم الورديه</h2>
                 <div className="flex flex-wrap items-center justify-center gap-2 text-[11px] sm:text-xs font-bold">
                   <span className="bg-slate-50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700">
                     وردية <span className="text-emerald-600 dark:text-emerald-400">#{activeShift.shift_sequence}</span>
@@ -213,7 +213,7 @@ const ShiftManager = () => {
                 {/* 🚀 تصغير الخطوط والمساحات في إدخال العهدة */}
                 <div className="space-y-2.5 p-4 bg-emerald-50/50 dark:bg-emerald-500/10 rounded-xl border border-emerald-100 dark:border-emerald-500/20 transition-colors">
                   <label className="text-xs sm:text-sm font-black text-emerald-800 dark:text-emerald-400 flex items-center gap-1.5">
-                    <Calculator className="w-4 h-4 text-emerald-500" /> إجمالي النقدية المتوفرة بالدرج
+                    <Calculator className="w-4 h-4 text-emerald-500" /> إجمالي الفلوس النقديه في الدرج
                   </label>
                   <div className="relative">
                     <input
@@ -229,7 +229,7 @@ const ShiftManager = () => {
                 <div className="space-y-3 p-4 bg-slate-50 dark:bg-slate-900/50 rounded-xl border border-slate-200 dark:border-slate-700 transition-colors">
                   <div className="flex justify-between items-center">
                     <label className="text-xs sm:text-sm font-black text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                      <CreditCard className="w-4 h-4 text-slate-400" /> أرصدة الماكينات (اختياري)
+                      <CreditCard className="w-4 h-4 text-slate-400" /> أرصدة الماكينات
                     </label>
                     <button type="button" onClick={addMachineField} className="text-[10px] sm:text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10 px-2 py-1.5 rounded-md hover:bg-indigo-100 dark:hover:bg-indigo-500/20 flex items-center gap-1 transition-all active:scale-95 border border-indigo-100 dark:border-indigo-500/20">
                       <Plus className="w-3 h-3" /> إضافة
@@ -262,7 +262,7 @@ const ShiftManager = () => {
                 </div>
 
                 <button type="submit" disabled={isSubmitting} className="w-full py-3.5 mt-2 bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600 text-white font-black text-sm sm:text-base rounded-xl shadow-md active:scale-95 transition-all flex items-center justify-center gap-2">
-                  {isSubmitting ? <Loader2 className="animate-spin w-4 h-4" /> : <><CheckCircle2 className="w-4 h-4" /> تأكيد وإغلاق</>}
+                  {isSubmitting ? <Loader2 className="animate-spin w-4 h-4" /> : <><CheckCircle2 className="w-4 h-4" /> تأكيد وتسليم</>}
                 </button>
               </form>
             </div>

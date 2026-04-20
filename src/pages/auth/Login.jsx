@@ -100,9 +100,9 @@ const Login = () => {
                 src={logoImg}
                 alt="دكاني"
                 style={{
-                  width: '130px', 
-                  height: 'auto', 
-                  minWidth: '110px', 
+                  width: '130px',
+                  height: 'auto',
+                  minWidth: '110px',
                   display: 'block',
                 }}
                 className="object-contain drop-shadow-md"
@@ -112,7 +112,7 @@ const Login = () => {
               تسجيل الدخول{' '}
             </h2>
             <p className="text-slate-500 dark:text-slate-400 mt-1 text-sm font-bold">
-              أدخل بياناتك للوصول لنظامك
+              دخل بياناتك عشان توصل لنظامك
             </p>
           </div>
 
@@ -126,7 +126,7 @@ const Login = () => {
                 htmlFor="phone"
                 className="block text-sm font-black text-slate-700 dark:text-slate-300 pr-2 transition-colors"
               >
-                رقم الهاتف
+                رقم الموبايل
               </label>
               <div className="relative">
                 <Mail className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 dark:text-slate-500 group-focus-within:text-indigo-600 dark:group-focus-within:text-indigo-400 z-10 transition-colors" />
@@ -148,7 +148,7 @@ const Login = () => {
                 htmlFor="password"
                 className="block text-sm font-black text-slate-700 dark:text-slate-300 pr-2 transition-colors"
               >
-                كلمة المرور / الـ PIN
+                كلمة السر / الـ PIN
               </label>
               <div className="relative">
                 <Lock className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 dark:text-slate-500 group-focus-within:text-indigo-600 dark:group-focus-within:text-indigo-400 z-10 transition-colors" />
@@ -175,7 +175,7 @@ const Login = () => {
               ) : (
                 <LogIn className="w-5 h-5" />
               )}
-              {isLoading ? 'جاري التحقق...' : 'دخول آمن'}
+              {isLoading ? 'جاري التحقق...' : 'دخول '}
             </button>
           </form>
         </div>
@@ -183,14 +183,14 @@ const Login = () => {
         {/* قسم إنشاء حساب جديد */}
         <div className="py-6 border-t border-slate-100 dark:border-slate-800 text-center space-y-3 px-8 bg-slate-50/50 dark:bg-slate-900/50 transition-colors">
           <p className="text-slate-500 dark:text-slate-400 text-xs font-bold">
-            هل أنت مالك جديد؟
+            أعمل حساب جديد في دقائق، وابدأ رحلتك مع دوكاني!
           </p>
           <Link
             to="/register"
             className="flex items-center justify-center gap-2 text-indigo-600 dark:text-indigo-400 font-black py-3 px-6 rounded-2xl bg-indigo-50 dark:bg-indigo-500/10 hover:bg-indigo-100 dark:hover:bg-indigo-500/20 transition-all border border-indigo-100 dark:border-indigo-500/20"
           >
             <Store className="w-4 h-4" />
-            تأسيس مؤسسة جديدة الآن
+           انشاء حساب جديد
           </Link>
         </div>
       </div>

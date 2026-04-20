@@ -71,13 +71,13 @@ const InventoryManager = () => {
             onClick={() => setActiveTab('CATALOG')} 
             className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-bold rounded-lg transition-all ${activeTab === 'CATALOG' ? 'bg-indigo-600 dark:bg-indigo-500 text-white shadow-sm shadow-indigo-500/20 dark:shadow-none' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}
           >
-            <Boxes className="w-4 h-4" /> قاعدة المنتجات
+            <Boxes className="w-4 h-4" />  المنتجات
           </button>
           <button 
             onClick={() => setActiveTab('INVENTORY')} 
             className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-bold rounded-lg transition-all ${activeTab === 'INVENTORY' ? 'bg-indigo-600 dark:bg-indigo-500 text-white shadow-sm shadow-indigo-500/20 dark:shadow-none' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}
           >
-            <Scale className="w-4 h-4" /> الميزانية (جرد المحل)
+            <Scale className="w-4 h-4" />  جرد المحل
           </button>
         </div>
       )}

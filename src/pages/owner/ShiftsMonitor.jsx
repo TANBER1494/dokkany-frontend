@@ -165,10 +165,9 @@ const ShiftsMonitor = () => {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 shrink-0 transition-colors">
         <div>
           <h1 className="text-xl font-bold text-slate-800 dark:text-white tracking-tight">
-            الورديات والرقابة الشاملة
+           مراقبة الورديات
           </h1>
           <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">
-            مراقبة الأوقات وحركات الخزينة بتصميم تدقيقي
           </p>
         </div>
 
@@ -195,13 +194,13 @@ const ShiftsMonitor = () => {
           onClick={() => setActiveTab('LIVE')}
           className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-semibold rounded-lg transition-all ${activeTab === 'LIVE' ? 'bg-white dark:bg-slate-700 text-slate-800 dark:text-white shadow-sm border border-slate-200/60 dark:border-slate-600' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'}`}
         >
-          <Activity className="w-4 h-4" /> الوردية الحية
+          <Activity className="w-4 h-4" /> الوردية الحاليه
         </button>
         <button
           onClick={() => setActiveTab('ARCHIVE')}
           className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-semibold rounded-lg transition-all ${activeTab === 'ARCHIVE' ? 'bg-white dark:bg-slate-700 text-slate-800 dark:text-white shadow-sm border border-slate-200/60 dark:border-slate-600' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'}`}
         >
-          <Archive className="w-4 h-4" /> سجل الأرشيف
+          <Archive className="w-4 h-4" /> سجل الورديات
         </button>
       </div>
 
@@ -241,7 +240,7 @@ const ShiftsMonitor = () => {
                       <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                     </span>
                     <h2 className="text-base font-bold text-slate-800 dark:text-white">
-                      وردية نشطة الآن
+                      وردية شغاله الآن
                     </h2>
                   </div>
 
@@ -318,7 +317,7 @@ const ShiftsMonitor = () => {
                   </div>
                   <div className="text-right">
                     <p className="text-[10px] font-bold text-slate-400 uppercase mb-0.5">
-                      منصرف الكاش
+                     طلع من الدرج
                     </p>
                     <p className="text-lg font-black text-rose-600 dark:text-rose-400">
                       {liveTotalExpenses.toLocaleString()} ج
@@ -521,7 +520,7 @@ const ShiftsMonitor = () => {
                                       </div>
                                       <div className="border-r border-l border-slate-100 dark:border-slate-700">
                                         <p className="text-[10px] font-semibold text-slate-500 dark:text-slate-400">
-                                          منصرف الكاش
+                                         طلع من الدرج
                                         </p>
                                         <p className="text-sm font-bold text-rose-600 dark:text-rose-400 mt-0.5">
                                           {shift.total_expenses} ج
@@ -529,7 +528,7 @@ const ShiftsMonitor = () => {
                                       </div>
                                       <div>
                                         <p className="text-[10px] font-semibold text-slate-500 dark:text-slate-400">
-                                          صافي المبيعات
+                                          صافي الورديه
                                         </p>
                                         <p className="text-sm font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">
                                           {shift.net_shift_profit} ج
@@ -544,7 +543,7 @@ const ShiftsMonitor = () => {
                                       className="mt-auto w-full py-2.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 text-xs font-bold rounded-xl hover:bg-white dark:hover:bg-slate-600 hover:border-indigo-300 dark:hover:border-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-300 transition-all flex items-center justify-center gap-1.5 active:scale-95"
                                     >
                                       <FileText className="w-3.5 h-3.5" /> عرض
-                                      تفاصيل الوردية والخط الزمني
+                                      تفاصيل الوردية  
                                     </button>
                                   </div>
                                 );
@@ -565,20 +564,21 @@ const ShiftsMonitor = () => {
       {/* مودال التفتيش الشامل (Timeline) */}
       <AnimatePresence>
         {selectedArchiveShift && (
-          <div className="fixed top-20 right-0 bottom-0 left-0 z-[100] flex items-start justify-center p-4 sm:p-6 bg-slate-900/60 dark:bg-slate-900/80 backdrop-blur-sm overflow-hidden">
+          <div className="fixed inset-0 z-[9999] flex flex-col justify-end sm:justify-center sm:items-center bg-slate-900/60 dark:bg-slate-900/80 backdrop-blur-sm p-0 sm:p-4 overflow-hidden">
+            <div className="absolute inset-0 z-0" onClick={() => setSelectedArchiveShift(null)}></div>
             <motion.div
-              initial={{ scale: 0.95, opacity: 0, y: 10 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 10 }}
-              transition={{ type: 'tween', duration: 0.2 }}
-              className="bg-white dark:bg-slate-800 w-full max-w-2xl flex flex-col shadow-2xl rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden h-auto max-h-full"
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="bg-white dark:bg-slate-800 w-full sm:max-w-2xl flex flex-col shadow-2xl rounded-t-[32px] sm:rounded-[32px] relative z-10 border-t sm:border border-slate-200 dark:border-slate-700 overflow-hidden max-h-[90vh] sm:max-h-[90vh]"
             >
               <div className="p-4 sm:p-5 border-b border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 shrink-0">
                 <div className="flex justify-between items-start">
                   <div>
                     <h3 className="text-base font-bold text-slate-800 dark:text-white flex items-center gap-2">
                       <Activity className="w-5 h-5 text-indigo-500 dark:text-indigo-400" />{' '}
-                      التدقيق المالي لوردية #
+                         العمليات اثناء الورديه رقم #
                       {selectedArchiveShift.shift_sequence}
                     </h3>
                   </div>
@@ -655,7 +655,7 @@ const ShiftsMonitor = () => {
               <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-5 bg-slate-50/50 dark:bg-slate-900/50 custom-scrollbar">
                 <div className="flex justify-between items-center mb-5">
                   <h4 className="text-sm font-bold text-slate-700 dark:text-slate-300">
-                    الخط الزمني للعمليات النقدية
+                   العمليات علي مدار الورديه
                   </h4>
                   <span className="text-xs font-semibold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-2.5 py-1 rounded-md text-slate-500 dark:text-slate-400">
                     {shiftTimeline.length} عملية

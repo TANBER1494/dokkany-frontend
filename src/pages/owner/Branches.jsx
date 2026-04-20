@@ -137,10 +137,10 @@ const Branches = () => {
       <div className="bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 p-6 rounded-[32px] shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 transition-colors">
         <div>
           <h1 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">إدارة الفروع</h1>
-          <p className="text-sm font-bold text-slate-500 dark:text-slate-400 mt-1">التحكم الكامل في أسماء الفروع ومواعيد عملها.</p>
+          <p className="text-sm font-bold text-slate-500 dark:text-slate-400 mt-1">التحكم الكامل في أسماء الفروع ومواعيد عملها</p>
         </div>
         <button onClick={() => setIsModalOpen(true)} className="w-full sm:w-auto flex items-center justify-center gap-2 bg-indigo-600 dark:bg-indigo-500 text-white px-6 py-3.5 rounded-full font-bold shadow-lg shadow-indigo-500/20 dark:shadow-indigo-900/20 hover:bg-indigo-700 dark:hover:bg-indigo-600 active:scale-95 transition-all text-[15px] shrink-0">
-          <Plus className="w-5 h-5" /> افتتاح فرع جديد
+          <Plus className="w-5 h-5" /> فتح فرع جديد
         </button>
       </div>
 
@@ -203,8 +203,15 @@ const Branches = () => {
       {/* مودال إضافة فرع جديد */}
       <AnimatePresence>
         {isModalOpen && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-slate-900/40 dark:bg-slate-900/80 backdrop-blur-sm">
-            <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }} className="relative w-full max-w-md bg-white dark:bg-slate-800 rounded-[32px] shadow-2xl overflow-hidden flex flex-col border border-slate-100 dark:border-slate-700 transition-colors">
+          <div className="fixed inset-0 z-[9999] flex flex-col justify-end sm:justify-center sm:items-center bg-slate-900/60 dark:bg-slate-900/80 backdrop-blur-sm p-0 sm:p-4 overflow-y-auto">
+            <div className="absolute inset-0 z-0" onClick={() => !isLoading && setIsModalOpen(false)}></div>
+            <motion.div 
+              initial={{ y: '100%' }} 
+              animate={{ y: 0 }} 
+              exit={{ y: '100%' }} 
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }} 
+              className="relative w-full sm:max-w-md bg-white dark:bg-slate-800 rounded-t-[32px] sm:rounded-[32px] shadow-2xl overflow-hidden flex flex-col border-t sm:border border-slate-100 dark:border-slate-700 transition-colors z-10"
+            >
               <div className="p-6 border-b border-slate-50 dark:border-slate-700 flex justify-between items-center bg-slate-50/50 dark:bg-slate-800/50">
                 <h3 className="text-xl font-black text-slate-800 dark:text-white flex items-center gap-2"><Store className="w-5 h-5 text-indigo-600 dark:text-indigo-400" /> افتتاح فرع جديد</h3>
                 <button onClick={() => !isLoading && setIsModalOpen(false)} className="p-2 text-slate-400 dark:text-slate-500 hover:text-rose-500 dark:hover:text-rose-400 bg-white dark:bg-slate-700 rounded-xl shadow-sm transition-colors"><X className="w-4 h-4" /></button>
@@ -236,15 +243,22 @@ const Branches = () => {
                 <button type="submit" form="add-branch-form" disabled={isLoading} className="flex-[2] flex items-center justify-center gap-2 py-3.5 bg-indigo-600 dark:bg-indigo-500 text-white font-bold rounded-2xl shadow-lg shadow-indigo-500/20 dark:shadow-none hover:bg-indigo-700 dark:hover:bg-indigo-600 active:scale-95 transition-all text-sm">حفظ وافتتاح</button>
               </div>
             </motion.div>
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
 
       {/* مودال تعديل إعدادات الفرع */}
       <AnimatePresence>
         {isEditModalOpen && editingBranch && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-slate-900/40 dark:bg-slate-900/80 backdrop-blur-sm">
-            <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 20 }} className="relative w-full max-w-md bg-white dark:bg-slate-800 rounded-[32px] shadow-2xl overflow-hidden flex flex-col border border-slate-100 dark:border-slate-700 transition-colors">
+          <div className="fixed inset-0 z-[9999] flex flex-col justify-end sm:justify-center sm:items-center bg-slate-900/60 dark:bg-slate-900/80 backdrop-blur-sm p-0 sm:p-4 overflow-y-auto">
+            <div className="absolute inset-0 z-0" onClick={() => setIsEditModalOpen(false)}></div>
+            <motion.div 
+              initial={{ y: '100%' }} 
+              animate={{ y: 0 }} 
+              exit={{ y: '100%' }} 
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }} 
+              className="relative w-full sm:max-w-md bg-white dark:bg-slate-800 rounded-t-[32px] sm:rounded-[32px] shadow-2xl overflow-hidden flex flex-col border-t sm:border border-slate-100 dark:border-slate-700 transition-colors z-10"
+            >
               <div className="p-6 border-b border-indigo-50 dark:border-slate-700 flex justify-between items-center bg-indigo-50/30 dark:bg-slate-800/50">
                 <h3 className="text-xl font-black text-slate-800 dark:text-white flex items-center gap-2"><Settings2 className="w-5 h-5 text-indigo-600 dark:text-indigo-400" /> تعديل بيانات {editingBranch.name}</h3>
                 <button onClick={() => setIsEditModalOpen(false)} className="p-2 text-slate-400 dark:text-slate-500 hover:text-rose-500 dark:hover:text-rose-400 bg-white dark:bg-slate-700 rounded-xl shadow-sm transition-colors"><X className="w-4 h-4" /></button>
@@ -279,7 +293,7 @@ const Branches = () => {
                 <button type="submit" form="edit-branch-form" disabled={isLoading} className="flex-[2] flex items-center justify-center gap-2 py-3.5 bg-indigo-600 dark:bg-indigo-500 text-white font-bold rounded-2xl shadow-lg shadow-indigo-500/20 dark:shadow-none hover:bg-indigo-700 dark:hover:bg-indigo-600 active:scale-95 transition-all text-sm">{isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />} حفظ التعديلات</button>
               </div>
             </motion.div>
-          </motion.div>
+          </div> 
         )}
       </AnimatePresence>
     </div>

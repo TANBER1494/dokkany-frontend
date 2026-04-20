@@ -77,9 +77,9 @@ const BranchPosSettings = ({ branchId }) => {
           <div className={`mx-auto w-20 h-20 rounded-[24px] flex items-center justify-center mb-4 transition-colors ${hasAccount ? 'bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400' : 'bg-amber-50 dark:bg-amber-500/10 text-amber-500 dark:text-amber-400'}`}>
             <MonitorSmartphone className="w-10 h-10" />
           </div>
-          <h2 className="text-2xl font-black text-slate-800 dark:text-white tracking-tight">حساب نقطة البيع (POS)</h2>
+          <h2 className="text-2xl font-black text-slate-800 dark:text-white tracking-tight">حساب الكاشير الموحد</h2>
           <p className="text-sm font-bold text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">
-            هذا هو الحساب الموحد للفرع. سيستخدمه العمال لتسجيل الدخول قبل إدخال الـ PIN الخاص بهم لاستلام الوردية.
+           دا الحساب الموحد اللي هيستخدمة عامل الكاشير في الفرع
           </p>
 
           {hasAccount ? (
@@ -95,7 +95,7 @@ const BranchPosSettings = ({ branchId }) => {
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-slate-500 dark:text-slate-400 pr-1">اسم الجهاز التعريفي (للعرض فقط)</label>
+            <label className="text-xs font-bold text-slate-500 dark:text-slate-400 pr-1">اسم الجهاز </label>
             <input 
               type="text" 
               value={formData.name} 

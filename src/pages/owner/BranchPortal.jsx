@@ -20,7 +20,7 @@ const BranchPortal = () => {
   const [activeTab, setActiveTab] = useState('EMPLOYEES');
 
   const tabs = [
-    { id: 'EMPLOYEES', label: 'فريق العمل', icon: Users },
+    { id: 'EMPLOYEES', label: ' العمال', icon: Users },
     { id: 'VENDORS', label: 'الموردين', icon: Truck },
     { id: 'CUSTOMERS', label: 'كشكول الزباين', icon: BookOpen },
     { id: 'POS_SETTINGS', label: 'الكاشير', icon: MonitorSmartphone },

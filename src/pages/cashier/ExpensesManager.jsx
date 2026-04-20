@@ -259,7 +259,7 @@ const ExpensesManager = () => {
         {/* الفورم في شاشات الديسكتوب */}
         <div className="hidden lg:flex w-5/12 bg-white dark:bg-slate-800 rounded-[24px] p-5 sm:p-6 shadow-sm border border-slate-100 dark:border-slate-700 flex-col h-full overflow-y-auto transition-colors">
           <h2 className="text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-5 flex items-center gap-2">
-            <Wallet className="w-5 h-5 sm:w-6 sm:h-6 text-rose-500 dark:text-rose-400" /> تسجيل خروج نقدي
+            <Wallet className="w-5 h-5 sm:w-6 sm:h-6 text-rose-500 dark:text-rose-400" /> تسجيل مصروف 
           </h2>
           {renderForm()}
         </div>
@@ -342,13 +342,13 @@ const ExpensesManager = () => {
           </div>
         </div>
 
-        {/* زر الفتح في الموبايل */}
-        <div className="lg:hidden fixed bottom-4 left-4 right-4 z-[90]">
+        {/* شريط الإجراء العائم (Sticky Footer) للموبايل - زر فقط */}
+        <div className="lg:hidden sticky bottom-4 mx-auto w-full bg-white/90 dark:bg-slate-800/90 backdrop-blur-md p-3 sm:p-4 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 z-[90] transition-colors mt-4">
           <button
             onClick={() => setIsMobileModalOpen(true)}
-            className="w-full py-3.5 sm:py-4 bg-rose-600 hover:bg-rose-700 dark:bg-rose-500 dark:hover:bg-rose-600 text-white text-sm sm:text-base font-black rounded-2xl shadow-xl shadow-rose-600/30 dark:shadow-none flex items-center justify-center gap-2 active:scale-95 transition-all"
+            className="w-full flex items-center justify-center gap-2 bg-rose-600 hover:bg-rose-700 dark:bg-rose-500 dark:hover:bg-rose-600 text-white py-3.5 sm:py-4 rounded-xl text-sm sm:text-base font-black active:scale-95 transition-all shadow-md shadow-rose-500/20 dark:shadow-none"
           >
-            <Plus className="w-5 h-5 sm:w-6 sm:h-6" /> تسجيل مصروف جديد
+            <Plus className="w-5 h-5" /> تسجيل مصروف جديد
           </button>
         </div>
 

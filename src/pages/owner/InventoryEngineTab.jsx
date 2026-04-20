@@ -230,7 +230,7 @@ const InventoryEngineTab = ({ branchId }) => {
             <div className="w-16 h-16 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 flex items-center justify-center mx-auto mb-4 text-indigo-600 dark:text-indigo-400 hide-on-print transition-colors">
               <FileText className="w-8 h-8" />
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight print-text-black">الميزانية العمومية للفرع</h1>
+            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight print-text-black">  نتيجة اخر جرد للفرع</h1>
             <div className="inline-flex items-center gap-1.5 bg-white dark:bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 mt-3 text-slate-500 dark:text-slate-400 text-xs font-bold shadow-sm print:shadow-none print-text-black transition-colors">
               <Calendar className="w-3.5 h-3.5" />
               <span>تاريخ الإصدار: {new Date(lastInventoryData.createdAt).toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
@@ -326,7 +326,7 @@ const InventoryEngineTab = ({ branchId }) => {
           <div className={`w-8 h-8 rounded-xl flex items-center justify-center font-black text-sm transition-colors ${step >= 1 ? 'bg-indigo-600 dark:bg-indigo-500 text-white shadow-md shadow-indigo-500/20' : 'bg-slate-100 dark:bg-slate-700 text-slate-400 dark:text-slate-500'}`}>
             {step > 1 ? '✓' : '1'}
           </div>
-          <span className={`font-black text-sm transition-colors ${step >= 1 ? 'text-slate-800 dark:text-white' : 'text-slate-400 dark:text-slate-500'}`}>العد الفعلي</span>
+          <span className={`font-black text-sm transition-colors ${step >= 1 ? 'text-slate-800 dark:text-white' : 'text-slate-400 dark:text-slate-500'}`}>العدد الفعلي</span>
         </div>
         
         <div className="flex-1 h-1.5 mx-2 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden transition-colors">
@@ -360,7 +360,7 @@ const InventoryEngineTab = ({ branchId }) => {
               </div>
               <div className="mt-4 flex items-center gap-2 text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10 p-3 rounded-xl border border-indigo-100 dark:border-indigo-500/20 transition-colors">
                 <AlertCircle className="w-4 h-4 shrink-0" />
-                <p>تم تعبئة الكميات تلقائياً بناءً على الرصيد الدفتري الحالي. راجع الأصناف وقم بتعديل العجز أو الزيادة فقط.</p>
+                <p> الكميات اتعبت علي اساس المخزن متنساش تعد اثناء الجرد وتغير الكميات علي حسب العدد الحالي</p>
               </div>
             </div>
 
@@ -376,7 +376,7 @@ const InventoryEngineTab = ({ branchId }) => {
                     </p>
                   </div>
                   <div className="flex items-center gap-3 w-full sm:w-auto bg-slate-50 dark:bg-slate-900/50 p-1.5 rounded-xl border border-slate-100 dark:border-slate-700 transition-colors">
-                    <label className="text-xs font-bold text-slate-500 dark:text-slate-400 pl-2">المجرد:</label>
+                    <label className="text-xs font-bold text-slate-500 dark:text-slate-400 pl-2">الكميه:</label>
                     <input
                       type="number" min="0"
                       value={countedItems[product._id] === 0 ? '' : countedItems[product._id]}
@@ -405,7 +405,7 @@ const InventoryEngineTab = ({ branchId }) => {
                 disabled={products.length === 0}
                 className="flex items-center justify-center gap-2 bg-indigo-600 dark:bg-indigo-500 text-white px-6 py-3 rounded-xl font-bold hover:bg-indigo-700 dark:hover:bg-indigo-600 active:scale-95 transition-all disabled:opacity-50 text-sm shadow-md shadow-indigo-500/20"
               >
-                المتابعة للقيود <ArrowLeft className="w-4 h-4" />
+                المتابعة للجرد <ArrowLeft className="w-4 h-4" />
               </button>
             </div>
           </motion.div>
@@ -417,15 +417,15 @@ const InventoryEngineTab = ({ branchId }) => {
             
             <div className="bg-white dark:bg-slate-800 rounded-[32px] shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden transition-colors">
               <div className="bg-slate-50 dark:bg-slate-800/50 p-6 border-b border-slate-100 dark:border-slate-700 text-center transition-colors">
-                <h2 className="text-xl font-black text-slate-800 dark:text-white">البيانات المالية للميزانية</h2>
-                <p className="text-xs font-bold text-slate-500 dark:text-slate-400 mt-2">أرصدة العملاء والموردين تُجلب آلياً من الدفاتر. أدخل فقط النقدية بالدرج ورأس المال الافتتاحي.</p>
+                <h2 className="text-xl font-black text-slate-800 dark:text-white">البيانات المالية </h2>
+                <p className="text-xs font-bold text-slate-500 dark:text-slate-400 mt-2">فلوس العملاء والموردين بتتحسب تلقائيا من السيستم ,دخل فقط الفلوس اللي في الدرج وراس المال السابق </p>
               </div>
 
               <form id="inventory-form" onSubmit={submitFinalInventory} className="p-6 sm:p-8 space-y-6">
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-                      <Wallet className="w-4 h-4" /> رأس المال السابق (الافتتاحي)
+                      <Wallet className="w-4 h-4" /> رأس المال السابق 
                     </label>
                     <input
                       type="number" step="0.01" required
@@ -437,7 +437,7 @@ const InventoryEngineTab = ({ branchId }) => {
                   </div>
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-                      <Banknote className="w-4 h-4" /> النقدية الفعلية (كاش الخزينة)
+                      <Banknote className="w-4 h-4" /> الفلوس اللي في الدرج
                     </label>
                     <input
                       type="number" step="0.01" required
@@ -451,7 +451,7 @@ const InventoryEngineTab = ({ branchId }) => {
 
                 <div className="space-y-2 border-t border-slate-100 dark:border-slate-700 pt-6">
                   <label className="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-                    <AlertCircle className="w-4 h-4 text-rose-400 dark:text-rose-500" /> مصروفات مستحقة أو عجز مالي (خصم)
+                    <AlertCircle className="w-4 h-4 text-rose-400 dark:text-rose-500" /> مصروفات مستحقة أو عجز مالي
                   </label>
                   <input
                     type="number"
@@ -463,7 +463,7 @@ const InventoryEngineTab = ({ branchId }) => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-500 dark:text-slate-400">ملاحظات إدارية لتسوية الجرد</label>
+                  <label className="text-xs font-bold text-slate-500 dark:text-slate-400">ملاحظات   </label>
                   <textarea
                     value={financials.notes}
                     onChange={(e) => setFinancials({ ...financials, notes: e.target.value })}
@@ -485,7 +485,7 @@ const InventoryEngineTab = ({ branchId }) => {
                   className="w-full sm:flex-1 flex items-center justify-center gap-2 bg-indigo-600 dark:bg-indigo-500 text-white px-8 py-3.5 rounded-xl font-bold hover:bg-indigo-700 dark:hover:bg-indigo-600 active:scale-95 transition-all text-sm shadow-lg shadow-indigo-500/20 dark:shadow-none"
                 >
                   {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle className="w-5 h-5" />}
-                  اعتماد الميزانية وإصدار التقرير
+                  اعتماد الجرد  
                 </button>
               </div>
             </div>
