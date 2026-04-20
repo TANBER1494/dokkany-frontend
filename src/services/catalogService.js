@@ -79,7 +79,35 @@ const catalogService = {
     } catch (error) {
       throw new Error(error.response?.data?.message || 'فشل حذف المنتج');
     }
-  }
+  },// ==========================================
+  // 📊 الاستيراد والتصدير (Excel)
+  // ==========================================
+  exportProductsTemplate: async (branchId) => {
+    try {
+      // 🚀 اللمسة السحرية: responseType: 'blob' لمنع تلف ملف الإكسيل
+      const response = await api.get(`/products/export-template?branch_id=${branchId}`, {
+        responseType: 'blob',
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error('فشل تحميل قالب الإكسيل');
+    }
+  },
+
+  importProductsFromExcel: async (branchId, file) => {
+    try {
+      const formData = new FormData();
+      formData.append('branch_id', branchId);
+      formData.append('excel_file', file);
+      
+      const response = await api.post('/products/import', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'فشل استيراد المنتجات');
+    }
+  },
 };
 
 export default catalogService;
