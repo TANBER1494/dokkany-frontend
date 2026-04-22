@@ -1,4 +1,5 @@
 import { useState, useContext, useEffect } from 'react';
+import { requestForToken, onMessageListener } from '../../firebase';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -18,6 +19,7 @@ import { ThemeContext } from '../../context/ThemeContext';
 import { showAlert } from '../../utils/alert';
 import NotificationBell from '../../components/layout/NotificationBell';
 import '../../components/layout/OwnerLayout.css';
+import api from '../../services/api'
 
 const OwnerLayout = () => {
   const { user, logout } = useContext(AuthContext);
@@ -81,6 +83,29 @@ const OwnerLayout = () => {
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
+
+
+ useEffect(() => {
+    // طلب الصلاحية واستخراج التوكن
+    requestForToken().then((token) => {
+      if (token) {
+        console.log("🔥 THE FIREBASE TOKEN IS: ", token);
+        
+        api.put('/auth/fcm-token', { fcm_token: token })
+          .then(() => console.log('✅ تم حفظ توكن الإشعارات في قاعدة البيانات'))
+          .catch(err => console.error('❌ فشل حفظ التوكن في السيرفر', err));
+      }
+    });
+
+    // الاستماع للإشعارات في حالة كان التطبيق مفتوحاً
+    onMessageListener()
+      .then((payload) => {
+        console.log("استلمت إشعار والتطبيق مفتوح: ", payload);
+        showAlert.success(payload.notification.title, payload.notification.body);
+      })
+      .catch((err) => console.log('failed: ', err));
+  }, []);
+
 
   return (
     <div className="h-[100dvh] w-full flex flex-col overflow-hidden bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 transition-colors duration-300 floating-nav">
