@@ -13,7 +13,7 @@ import {
   Clock,
   Play,
   Calendar,
-  ChevronLeft
+  ChevronLeft,Store
 } from 'lucide-react';
 import { showAlert } from '../../utils/alert';
 import shiftService from '../../services/shiftService';
@@ -257,8 +257,12 @@ const CashierDashboard = () => {
               </span>
               {activeShift.is_acknowledged ? activeShift.acknowledged_by?.name || 'كاشير نشط' : 'النظام يعمل (بانتظار المستلم)'}
             </h2>
-            
             <div className="text-xs font-bold text-slate-500 dark:text-slate-400 mt-2 flex items-center flex-wrap gap-2 sm:gap-3 transition-colors">
+    {/* 🚀 إضافة اسم الفرع هنا كـ Badge احترافي */}
+    <span className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-500/20 transition-all">
+      <Store className="w-3.5 h-3.5" />
+      {'فرع ' +activeShift.branch_id?.name || 'الفرع الحالي'}
+    </span>
               <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5 text-slate-400"/> {currentDateString}</span>
               <span className="text-slate-300 dark:text-slate-600 hidden sm:inline">|</span>
               {activeShift.is_acknowledged ? (

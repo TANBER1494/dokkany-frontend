@@ -45,15 +45,18 @@ const CashierLayout = () => {
             className="shrink-0 h-20 bg-white/70 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-4 sm:px-6 lg:px-8 z-50 transition-all shadow-sm"
           >
             <div className="flex items-center gap-3">
-              {/* 🚀 اللوجو الجديد بدلاً من الأيقونة المربعة (Store) */}
-              <img
-                src={logoImg}
-                alt="لوجو دكاني"
-                className="w-17 h-14 sm:w-12 sm:h-12 object-contain drop-shadow-md transition-transform hover:scale-105"
-              />
+  {/* اللوجو */}
+  <img
+    src={logoImg}
+    alt="لوجو دكاني"
+    className="w-17 h-14 sm:w-12 sm:h-12 object-contain drop-shadow-md transition-transform hover:scale-105"
+  />
 
-              <div></div>
-            </div>
+  {/* 🚀 اسم النظام والفرع بجوار اللوجو */}
+  <div className="hidden sm:flex flex-col border-r border-slate-200 dark:border-slate-800 pr-3 transition-colors">
+    <span className="text-[18px] font-black text-slate-250 dark:text-slate-500 uppercase tracking-tighter leading-none"> مرحبا بك في نظام دكاني </span>
+  </div>
+</div>
 
             <div className="flex items-center gap-2 sm:gap-4">
               <button
