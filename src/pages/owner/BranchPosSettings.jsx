@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { MonitorSmartphone, Lock, Phone, ShieldCheck, Loader2, CheckCircle, AlertTriangle } from 'lucide-react';
+import Swal from 'sweetalert2'; // 👈 استدعاء مكتبة التنبيهات
 import { showAlert } from '../../utils/alert';
 import posAccountService from '../../services/posAccountService';
 
@@ -43,10 +44,26 @@ const BranchPosSettings = ({ branchId }) => {
     if (!formData.phone) return showAlert.error('تنبيه', 'يجب إدخال رقم هاتف لجهاز الكاشير');
     if (!hasAccount && !formData.password) return showAlert.error('تنبيه', 'يجب إدخال كلمة مرور لأول مرة');
 
+    // 🛡️ SECURITY FIX: إضافة تحذير صارم قبل تغيير بيانات حساب موجود بالفعل
+    if (hasAccount && (formData.password || formData.phone !== formData.phone)) {
+      const result = await Swal.fire({
+        title: 'تأكيد التحديث  ',
+        text: 'تغيير بيانات الدخول سيؤدي إلى إغلاق الجلسة وطرد (تسجيل خروج) أي جهاز كاشير يعمل حالياً بهذا الحساب فوراً. هل أنت متأكد؟',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#4f46e5',
+        cancelButtonColor: '#ef4444',
+        confirmButtonText: 'نعم، قم بالتحديث والطرد',
+        cancelButtonText: 'تراجع'
+      });
+
+      if (!result.isConfirmed) return; // إلغاء العملية إذا تراجع المالك
+    }
+
     try {
       setIsSubmitting(true);
       await posAccountService.upsertPosAccount(branchId, formData);
-      showAlert.success('تم الحفظ', 'تم تحديث بيانات دخول نقطة البيع بنجاح');
+      showAlert.success('تم الحفظ', 'تم تحديث بيانات دخول نقطة البيع بنجاح (وتم طرد الأجهزة القديمة)');
       setFormData(prev => ({ ...prev, password: '' })); 
       fetchPosAccount();
     } catch (error) {

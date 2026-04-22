@@ -11,6 +11,8 @@ import {
   ArrowRight,
   ChevronLeft,
   Loader2,
+  Eye,
+  EyeOff, // 👈 تم الإضافة هنا
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
@@ -24,6 +26,7 @@ const RegisterOwner = () => {
 
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // 👈 حالة التحكم
 
   const [formData, setFormData] = useState({
     owner_name: '',
@@ -132,13 +135,12 @@ const RegisterOwner = () => {
                   display: 'block',
                 }}
                 className="object-contain drop-shadow-md"
-              />{' '}
+              />
             </div>
             <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight transition-colors">
-             انشاء حساب جديد  
+              انشاء حساب جديد
             </h2>
 
-            {/* مؤشر الخطوات المظلم/المضيء */}
             <div className="flex items-center justify-center gap-2 mt-2">
               <div
                 className={`h-1.5 rounded-full transition-all duration-500 ${step === 1 ? 'w-8 bg-indigo-600 dark:bg-indigo-500' : 'w-2 bg-slate-200 dark:bg-slate-700'}`}
@@ -164,7 +166,7 @@ const RegisterOwner = () => {
                     htmlFor="owner_name"
                     className="block text-sm font-black text-slate-700 dark:text-slate-300 pr-2 transition-colors"
                   >
-                    الاسم 
+                    الاسم
                   </label>
                   <div className="relative">
                     <User className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500 group-focus-within:text-indigo-600 dark:group-focus-within:text-indigo-400 z-10 transition-colors" />
@@ -207,20 +209,36 @@ const RegisterOwner = () => {
                     htmlFor="password"
                     className="block text-sm font-black text-slate-700 dark:text-slate-300 pr-2 transition-colors"
                   >
-                    كلمة السر / الـ PIN 
+                    كلمة السر / الـ PIN
                   </label>
                   <div className="relative">
                     <Lock className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500 group-focus-within:text-indigo-600 dark:group-focus-within:text-indigo-400 z-10 transition-colors" />
+
+                    {/* 👈 تعديل الحقل وإضافة padding يسار (pl-12) */}
                     <input
                       id="password"
                       value={formData.password}
                       onChange={handleChange}
-                      type="password"
+                      type={showPassword ? 'text' : 'password'}
                       placeholder="********"
-                      className="w-full pr-10 pl-4 py-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:border-indigo-600 dark:focus:border-indigo-500 focus:ring-2 focus:ring-indigo-600/10 dark:focus:ring-indigo-500/20 outline-none text-left font-bold tracking-widest text-base transition-all"
+                      className="w-full pr-10 pl-12 py-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 text-slate-900 dark:text-white focus:border-indigo-600 dark:focus:border-indigo-500 focus:ring-2 focus:ring-indigo-600/10 dark:focus:ring-indigo-500/20 outline-none text-left font-bold tracking-widest text-base transition-all"
                       disabled={isLoading}
                       dir="ltr"
                     />
+
+                    {/* 👈 زر إظهار/إخفاء كلمة المرور */}
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors z-10"
+                      tabIndex="-1"
+                    >
+                      {showPassword ? (
+                        <EyeOff className="w-4 h-4" />
+                      ) : (
+                        <Eye className="w-4 h-4" />
+                      )}
+                    </button>
                   </div>
                 </div>
 
@@ -312,7 +330,6 @@ const RegisterOwner = () => {
                   >
                     <ArrowRight className="w-5 h-5" />
                   </button>
-
                   <button
                     type="submit"
                     disabled={isLoading}
