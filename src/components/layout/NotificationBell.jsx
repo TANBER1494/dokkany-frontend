@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useRef } from 'react';
+import { useState, useEffect, useContext, useRef ,showAlert} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -35,17 +35,27 @@ const NotificationBell = () => {
     if (!socket) return;
 
     const handleNewNotification = (newNotif) => {
+      // 1. تحديث القائمة والعداد لحظياً (لإنهاء الحاجة للـ Refresh)
       setNotifications((prev) => [newNotif, ...prev]);
       setUnreadCount((prev) => prev + 1);
       
+      // 2. تشغيل التنبيه الصوتي 🔊
       try {
         const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
-        audio.play().catch(() => {});
-      } catch (err) {console.error('Error playing notification sound:', err);}
+        audio.play().catch(() => console.log('المتصفح منع الصوت (يحتاج لتفاعل المستخدم أولاً)'));
+      } catch (err) {
+        console.error('Error playing notification sound:', err);
+      }
+
+      // 3. إظهار الإشعار المرئي في الشاشة 🔔
+      showAlert.success(newNotif.title, newNotif.message);
     };
 
-    socket.on('new_notification', handleNewNotification);
-    return () => socket.off('new_notification', handleNewNotification);
+    // 🚀 التعديل الجذري: الاستماع للاسم الجديد القادم من الباك إند
+    socket.on('receiveNotification', handleNewNotification);
+    
+    // تنظيف الحدث
+    return () => socket.off('receiveNotification', handleNewNotification);
   }, [socket]);
 
   useEffect(() => {
