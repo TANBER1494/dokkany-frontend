@@ -49,6 +49,14 @@ const NotificationBell = () => {
 
       // 3. إظهار الإشعار المرئي في الشاشة 🔔
       showAlert.success(newNotif.title, newNotif.message);
+      // 🚀 4. إجبار نظام التشغيل على إظهار الإشعار في الشريط العلوي (System Tray)
+      if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification(newNotif.title, {
+          body: newNotif.message,
+          icon: '../../../public/pwa-192x192.png', // تأكد أن اللوجو موجود في مجلد public
+          dir: 'rtl'
+        });
+      }
     };
 
     // 🚀 التعديل الجذري: الاستماع للاسم الجديد القادم من الباك إند

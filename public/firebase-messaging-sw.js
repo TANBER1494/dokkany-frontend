@@ -13,18 +13,3 @@ firebase.initializeApp({
 });
 
 const messaging = firebase.messaging();
-
-// 🛡️ هذه الدالة لا تعمل إلا والتطبيق مغلق أو في الخلفية
-messaging.onBackgroundMessage((payload) => {
-  console.log('[Service Worker] استلام إشعار في الخلفية: ', payload);
-  
-  const notificationTitle = payload.notification.title;
-  const notificationOptions = {
-    body: payload.notification.body,
-    icon: '/logo.png', // يجب أن تكون لديك صورة لوجو في مجلد public
-    badge: '/logo.png',
-    dir: 'rtl'
-  };
-
-  self.registration.showNotification(notificationTitle, notificationOptions);
-});

@@ -21,15 +21,17 @@ export const requestForToken = async () => {
   if (!messaging) return null;
   
   try {
+    // 🚀 إجبار المتصفح على تسجيل الجندي الخفي (Service Worker) بوضوح
+    const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+    
     const currentToken = await getToken(messaging, { 
-      vapidKey: 'BO14ZnAZpnm5lQ4hMW7n4BMCT0_-MNFsghWcT1vNICwp2Nw5gjB-fg7Tqxu9j15brsgu3MLms14Gs3RUG79WUEM'
+      vapidKey: 'BO14ZnAZpnm5lQ4hMW7n4BMCT0_-MNFsghWcT1vNICwp2Nw5gjB-fg7Tqxu9j15brsgu3MLms14Gs3RUG79WUEM',
+      serviceWorkerRegistration: registration // 
     });
     
     if (currentToken) {
-      console.log('🚀 FCM Token:', currentToken);
       return currentToken;
     } else {
-      console.log('⚠️ لم يوافق المستخدم على استقبال الإشعارات');
       return null;
     }
   } catch (err) {
