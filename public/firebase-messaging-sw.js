@@ -15,32 +15,42 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 
 // ==============================================================
-// 🚀 تفعيل الضغط على الإشعارات (Click Action Handler)
+// 🚀 تفعيل الضغط على الإشعارات (Ultra-Robust Click Handler)
 // ==============================================================
 self.addEventListener('notificationclick', function(event) {
-  console.log('[Service Worker] Notification click Received.');
-
-  // 1. إغلاق الإشعار فور الضغط عليه
+  console.log('[Service Worker] 🎯 Notification Clicked!');
   event.notification.close();
 
-  // 2. استخراج الرابط الذي أرسلناه من الباك إند
-  const targetUrl = event.notification.data?.click_action || event.notification.data?.FCM_MSG?.notification?.click_action || self.location.origin;
+  let targetUrl = 'https://dokkany-frontend.vercel.app';
 
-  // 3. فحص النوافذ المفتوحة للتطبيق
+  if (event.notification.data && event.notification.data.click_action) {
+    targetUrl = event.notification.data.click_action;
+  } else if (event.notification.data && event.notification.data.FCM_MSG && event.notification.data.FCM_MSG.notification) {
+    targetUrl = event.notification.data.FCM_MSG.notification.click_action || targetUrl;
+  } else if (event.action) {
+    targetUrl = event.action; // في حال استخدمنا أزرار داخل الإشعار
+  }
+
+  console.log('[Service Worker] 🔗 Target URL resolved to:', targetUrl);
+
+  // 2. البحث عن نافذة مفتوحة للتطبيق أو فتح نافذة جديدة
   event.waitUntil(
     clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
       
-      // هل التطبيق مفتوح بالفعل في الخلفية؟
+      // هل التطبيق مفتوح في أي تبويبة؟
       for (let i = 0; i < windowClients.length; i++) {
         const client = windowClients[i];
-        // إذا كان مفتوحاً، قم بتحديث الرابط وإيقاظ التطبيق (Focus)
+        
+        // إذا كان مفتوحاً (سواء في الخلفية أو أمامك)، قم بتوجيهه وإيقاظه
         if (client.url.includes(self.location.origin) && 'focus' in client) {
-          client.navigate(targetUrl); // توجيهه للصفحة المطلوبة
+          console.log('[Service Worker] 🔄 Focusing existing window...');
+          client.navigate(targetUrl); 
           return client.focus();
         }
       }
       
       // إذا كان التطبيق مغلقاً تماماً، افتح نافذة جديدة
+      console.log('[Service Worker] 🌍 Opening new window...');
       if (clients.openWindow) {
         return clients.openWindow(targetUrl);
       }
