@@ -4,16 +4,18 @@ const platformPaymentService = {
   // ==========================================
   // 💼 مسارات المالك
   // ==========================================
-  
+
   // 1. رفع طلب التجديد (مع صورة)
   submitRequest: async (formData) => {
     try {
       const response = await api.post('/payments/request', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
       return response.data;
     } catch (error) {
-      throw new Error(error.response?.data?.message || 'خطأ في إرسال طلب التجديد');
+      throw new Error(
+        error.response?.data?.message || 'خطأ في إرسال طلب التجديد'
+      );
     }
   },
 
@@ -23,20 +25,24 @@ const platformPaymentService = {
       const response = await api.get('/payments/history');
       return response.data;
     } catch (error) {
-      throw new Error(error.response?.data?.message || 'خطأ في جلب سجل المدفوعات');
+      throw new Error(
+        error.response?.data?.message || 'خطأ في جلب سجل المدفوعات'
+      );
     }
   },
 
   // ==========================================
   // 👑 مسارات الأدمن (سنحتاجها لاحقاً في لوحتك)
   // ==========================================
-  
+
   getPending: async () => {
     try {
       const response = await api.get('/payments/pending');
       return response.data;
     } catch (error) {
-      throw new Error(error.response?.data?.message || 'خطأ في جلب الطلبات المعلقة');
+      throw new Error(
+        error.response?.data?.message || 'خطأ في جلب الطلبات المعلقة'
+      );
     }
   },
 
@@ -54,9 +60,33 @@ const platformPaymentService = {
       const response = await api.delete(`/payments/branches/${branchId}`);
       return response.data;
     } catch (error) {
-      throw new Error(error.response?.data?.message || 'خطأ في تنظيف سجل الفرع');
+      throw new Error(
+        error.response?.data?.message || 'خطأ في تنظيف سجل الفرع'
+      );
     }
-  }
+  },
+
+  getAdminHistory: async () => {
+    try {
+      const response = await api.get('/payments/admin/history');
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        error.response?.data?.message || 'خطأ في جلب سجل المدفوعات للأدمن'
+      );
+    }
+  },
+
+  clearAdminHistory: async () => {
+    try {
+      const response = await api.delete('/payments/admin/history');
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        error.response?.data?.message || 'خطأ في تنظيف سجل المدفوعات للأدمن'
+      );
+    }
+  },
 };
 
 export default platformPaymentService;
