@@ -13,3 +13,37 @@ firebase.initializeApp({
 });
 
 const messaging = firebase.messaging();
+
+// ==============================================================
+// 🚀 تفعيل الضغط على الإشعارات (Click Action Handler)
+// ==============================================================
+self.addEventListener('notificationclick', function(event) {
+  console.log('[Service Worker] Notification click Received.');
+
+  // 1. إغلاق الإشعار فور الضغط عليه
+  event.notification.close();
+
+  // 2. استخراج الرابط الذي أرسلناه من الباك إند
+  const targetUrl = event.notification.data?.click_action || event.notification.data?.FCM_MSG?.notification?.click_action || self.location.origin;
+
+  // 3. فحص النوافذ المفتوحة للتطبيق
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
+      
+      // هل التطبيق مفتوح بالفعل في الخلفية؟
+      for (let i = 0; i < windowClients.length; i++) {
+        const client = windowClients[i];
+        // إذا كان مفتوحاً، قم بتحديث الرابط وإيقاظ التطبيق (Focus)
+        if (client.url.includes(self.location.origin) && 'focus' in client) {
+          client.navigate(targetUrl); // توجيهه للصفحة المطلوبة
+          return client.focus();
+        }
+      }
+      
+      // إذا كان التطبيق مغلقاً تماماً، افتح نافذة جديدة
+      if (clients.openWindow) {
+        return clients.openWindow(targetUrl);
+      }
+    })
+  );
+});
