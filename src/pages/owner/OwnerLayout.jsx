@@ -97,11 +97,26 @@ const OwnerLayout = () => {
       }
     });
 
-    // الاستماع للإشعارات في حالة كان التطبيق مفتوحاً
-    onMessageListener()
+   onMessageListener()
       .then((payload) => {
-        console.log("استلمت إشعار والتطبيق مفتوح: ", payload);
-        showAlert.success(payload.notification.title, payload.notification.body);
+        console.log("استلمت إشعار: ", payload);
+        
+        // 🚀 فحص حالة التطبيق: هل هو أمام المستخدم أم في الخلفية؟
+        if (document.visibilityState === 'visible') {
+          // التطبيق مفتوح أمام عينه: نظهر Alert داخل الموقع
+          showAlert.success(payload.notification?.title, payload.notification?.body);
+        } else {
+          // التطبيق في الخلفية: نجبر المتصفح على رسم إشعار نظام حقيقي لنتجنب رسالة كروم
+          navigator.serviceWorker.ready.then((registration) => {
+            registration.showNotification(payload.notification?.title, {
+              body: payload.notification?.body,
+              icon: '/logo.png', // الأيقونة
+              badge: '/badge.png', // الجرس الصغير
+              dir: 'rtl',
+              data: { click_action: payload.data?.click_action || '/owner/dashboard' }
+            });
+          });
+        }
       })
       .catch((err) => console.log('failed: ', err));
   }, []);
