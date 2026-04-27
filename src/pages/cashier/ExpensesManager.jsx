@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
-import { createPortal } from 'react-dom'; // 👈 استيراد البورتال لحل مشاكل الموبايل
+import { createPortal } from 'react-dom'; //
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -13,7 +13,7 @@ import {
   Plus,
   X,
   Wallet,
-  ArrowRight
+  ArrowRight,
 } from 'lucide-react';
 import { showAlert } from '../../utils/alert';
 import { AuthContext } from '../../context/AuthContext';
@@ -142,7 +142,7 @@ const ExpensesManager = () => {
 
   const totalExpenses = cashFlows.reduce((acc, curr) => acc + curr.amount, 0);
 
-  // 🚀 دالة عرض النموذج (مستخدمة في الديسكتوب والموبايل)
+  // دالة عرض النموذج (مستخدمة في الديسكتوب والموبايل)
   const renderForm = () => (
     <div className="flex flex-col h-full">
       <div className="flex p-1 bg-slate-100 dark:bg-slate-800/50 border border-slate-200/50 dark:border-slate-700/50 rounded-[14px] mb-5 transition-colors">
@@ -156,7 +156,7 @@ const ExpensesManager = () => {
             id: 'PERSONAL',
             label: 'سلفة عامل',
             icon: <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4" />,
-          }
+          },
         ].map((tab) => (
           <button
             key={tab.id}
@@ -184,7 +184,9 @@ const ExpensesManager = () => {
               placeholder="0"
               dir="ltr"
               value={formData.amount}
-              onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, amount: e.target.value })
+              }
               className="w-full py-3.5 sm:py-4 rounded-xl border border-rose-200 dark:border-rose-500/30 bg-rose-50 dark:bg-rose-500/10 text-center text-2xl sm:text-3xl font-black text-rose-600 dark:text-rose-400 outline-none focus:border-rose-400 dark:focus:border-rose-500 transition-all placeholder:text-rose-200 dark:placeholder:text-rose-500/30"
             />
             <span className="absolute left-4 top-1/2 -translate-y-1/2 font-black text-rose-400 dark:text-rose-500 text-sm">
@@ -200,7 +202,9 @@ const ExpensesManager = () => {
             </label>
             <select
               value={formData.employee_id}
-              onChange={(e) => setFormData({ ...formData, employee_id: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, employee_id: e.target.value })
+              }
               className="w-full py-3 px-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 outline-none focus:border-rose-400 dark:focus:border-rose-500 font-bold text-xs sm:text-sm text-slate-800 dark:text-white transition-colors cursor-pointer"
             >
               <option value="">-- اختر العامل --</option>
@@ -219,9 +223,15 @@ const ExpensesManager = () => {
           </label>
           <input
             type="text"
-            placeholder={activeTab === 'OPERATION' ? "مثال: فاتورة كهرباء، بلاستيك..." : "مثال: سلفة من الراتب..."}
+            placeholder={
+              activeTab === 'OPERATION'
+                ? 'مثال: فاتورة كهرباء، بلاستيك...'
+                : 'مثال: سلفة من الراتب...'
+            }
             value={formData.description}
-            onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, description: e.target.value })
+            }
             className="w-full py-3 px-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 outline-none focus:border-rose-400 dark:focus:border-rose-500 font-bold text-xs sm:text-sm text-slate-800 dark:text-white transition-colors"
           />
         </div>
@@ -244,9 +254,8 @@ const ExpensesManager = () => {
 
   return (
     <div className="w-full flex flex-col gap-4 sm:gap-5 pb-20 transition-colors duration-300">
-      
       <div>
-        <button 
+        <button
           onClick={() => navigate('/cashier')}
           className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 font-bold bg-white dark:bg-slate-800 px-3.5 py-2 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 transition-all active:scale-95 w-fit text-sm"
         >
@@ -255,11 +264,11 @@ const ExpensesManager = () => {
       </div>
 
       <div className="flex flex-col lg:flex-row gap-4 sm:gap-5 flex-1 min-h-0">
-        
         {/* الفورم في شاشات الديسكتوب */}
         <div className="hidden lg:flex w-5/12 bg-white dark:bg-slate-800 rounded-[24px] p-5 sm:p-6 shadow-sm border border-slate-100 dark:border-slate-700 flex-col h-full overflow-y-auto transition-colors">
           <h2 className="text-lg sm:text-xl font-black text-slate-800 dark:text-white mb-5 flex items-center gap-2">
-            <Wallet className="w-5 h-5 sm:w-6 sm:h-6 text-rose-500 dark:text-rose-400" /> تسجيل مصروف 
+            <Wallet className="w-5 h-5 sm:w-6 sm:h-6 text-rose-500 dark:text-rose-400" />{' '}
+            تسجيل مصروف
           </h2>
           {renderForm()}
         </div>
@@ -268,7 +277,8 @@ const ExpensesManager = () => {
         <div className="w-full lg:w-7/12 bg-white dark:bg-slate-800 rounded-[24px] p-4 sm:p-5 shadow-sm border border-slate-100 dark:border-slate-700 flex flex-col h-full overflow-hidden relative transition-colors">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 mb-5">
             <h2 className="text-base sm:text-lg font-black text-slate-800 dark:text-white flex items-center gap-2">
-              <Receipt className="text-slate-400 dark:text-slate-500 w-5 h-5" /> سجل مصاريف الوردية
+              <Receipt className="text-slate-400 dark:text-slate-500 w-5 h-5" />{' '}
+              سجل مصاريف الوردية
             </h2>
             <div className="bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 px-3 py-2 rounded-xl font-black text-[11px] sm:text-xs border border-rose-100 dark:border-rose-500/20 w-full sm:w-auto text-center tracking-wide">
               إجمالي المنصرف: {totalExpenses.toLocaleString()} ج
@@ -353,38 +363,43 @@ const ExpensesManager = () => {
         </div>
 
         {/* مودال الموبايل (React Portal) */}
-        {typeof document !== 'undefined' && createPortal(
-          <AnimatePresence>
-            {isMobileModalOpen && (
-              <div className="fixed inset-0 z-[9999] lg:hidden flex flex-col justify-end bg-slate-900/60 dark:bg-slate-900/80 backdrop-blur-sm p-0">
-                <div className="absolute inset-0 z-0" onClick={() => setIsMobileModalOpen(false)}></div>
-                <motion.div
-                  initial={{ y: '100%' }}
-                  animate={{ y: 0 }}
-                  exit={{ y: '100%' }}
-                  transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                  className="bg-white dark:bg-slate-900 w-full rounded-t-[32px] p-5 sm:p-6 shadow-2xl flex flex-col max-h-[90vh] relative z-10 border-t border-slate-200 dark:border-slate-800"
-                >
-                  <div className="flex justify-between items-center mb-5">
-                    <h3 className="font-black text-lg sm:text-xl text-slate-800 dark:text-white flex items-center gap-2">
-                       <Wallet className="w-5 h-5 text-rose-500 dark:text-rose-400" /> خروج نقدي
-                    </h3>
-                    <button
-                      onClick={() => setIsMobileModalOpen(false)}
-                      className="p-1.5 sm:p-2 bg-slate-50 dark:bg-slate-800 rounded-xl text-slate-400 dark:text-slate-500 hover:text-rose-500 dark:hover:text-rose-400 border border-slate-100 dark:border-slate-700 transition-colors"
-                    >
-                      <X className="w-4 h-4 sm:w-5 sm:h-5" />
-                    </button>
-                  </div>
-                  <div className="flex-1 overflow-y-auto pb-4 custom-scrollbar pr-1">
-                    {renderForm()}
-                  </div>
-                </motion.div>
-              </div>
-            )}
-          </AnimatePresence>,
-          document.body
-        )}
+        {typeof document !== 'undefined' &&
+          createPortal(
+            <AnimatePresence>
+              {isMobileModalOpen && (
+                <div className="fixed inset-0 z-[9999] lg:hidden flex flex-col justify-end bg-slate-900/60 dark:bg-slate-900/80 backdrop-blur-sm p-0">
+                  <div
+                    className="absolute inset-0 z-0"
+                    onClick={() => setIsMobileModalOpen(false)}
+                  ></div>
+                  <motion.div
+                    initial={{ y: '100%' }}
+                    animate={{ y: 0 }}
+                    exit={{ y: '100%' }}
+                    transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                    className="bg-white dark:bg-slate-900 w-full rounded-t-[32px] p-5 sm:p-6 shadow-2xl flex flex-col max-h-[90vh] relative z-10 border-t border-slate-200 dark:border-slate-800"
+                  >
+                    <div className="flex justify-between items-center mb-5">
+                      <h3 className="font-black text-lg sm:text-xl text-slate-800 dark:text-white flex items-center gap-2">
+                        <Wallet className="w-5 h-5 text-rose-500 dark:text-rose-400" />{' '}
+                        خروج نقدي
+                      </h3>
+                      <button
+                        onClick={() => setIsMobileModalOpen(false)}
+                        className="p-1.5 sm:p-2 bg-slate-50 dark:bg-slate-800 rounded-xl text-slate-400 dark:text-slate-500 hover:text-rose-500 dark:hover:text-rose-400 border border-slate-100 dark:border-slate-700 transition-colors"
+                      >
+                        <X className="w-4 h-4 sm:w-5 sm:h-5" />
+                      </button>
+                    </div>
+                    <div className="flex-1 overflow-y-auto pb-4 custom-scrollbar pr-1">
+                      {renderForm()}
+                    </div>
+                  </motion.div>
+                </div>
+              )}
+            </AnimatePresence>,
+            document.body
+          )}
       </div>
     </div>
   );

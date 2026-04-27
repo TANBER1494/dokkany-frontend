@@ -1,19 +1,18 @@
 import { useState, useEffect, useContext } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Store } from 'lucide-react';
-import { AuthContext } from '../../context/AuthContext'; // 👈 استيراد السياق
+import { AuthContext } from '../../context/AuthContext';
 
 const SplashScreen = ({ children }) => {
-  const { user } = useContext(AuthContext); // 👈 مراقبة حالة المستخدم
+  const { user } = useContext(AuthContext);
   const [showSplash, setShowSplash] = useState(false);
 
   useEffect(() => {
-    // 🚀 اللوجيك الجديد: الشاشة تعمل *فقط* إذا كان هناك مستخدم مسجل الدخول، ولم يشاهدها في هذه الجلسة
+    // اللوجيك الجديد: الشاشة تعمل *فقط* إذا كان هناك مستخدم مسجل الدخول، ولم يشاهدها في هذه الجلسة
     if (user && !sessionStorage.getItem('dokkany_splash_seen')) {
-      
       // 1. تسجيل الرؤية *فوراً* لمنع ظهورها لو عمل المستخدم ريفريش بسرعة قبل انتهاء الأنميشن
       sessionStorage.setItem('dokkany_splash_seen', 'true');
-      
+
       // 2. إظهار الشاشة
       setShowSplash(true);
 
@@ -24,7 +23,7 @@ const SplashScreen = ({ children }) => {
 
       return () => clearTimeout(timer);
     }
-  }, [user]); // 👈 ربط الـ useEffect بحالة المستخدم
+  }, [user]);
 
   return (
     <>

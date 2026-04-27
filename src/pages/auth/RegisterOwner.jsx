@@ -12,7 +12,7 @@ import {
   ChevronLeft,
   Loader2,
   Eye,
-  EyeOff, // 👈 تم الإضافة هنا
+  EyeOff,
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
@@ -26,7 +26,7 @@ const RegisterOwner = () => {
 
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // 👈 حالة التحكم
+  const [showPassword, setShowPassword] = useState(false);
 
   const [formData, setFormData] = useState({
     owner_name: '',
@@ -214,7 +214,7 @@ const RegisterOwner = () => {
                   <div className="relative">
                     <Lock className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500 group-focus-within:text-indigo-600 dark:group-focus-within:text-indigo-400 z-10 transition-colors" />
 
-                    {/* 👈 تعديل الحقل وإضافة padding يسار (pl-12) */}
+                    {/* تعديل الحقل وإضافة padding يسار (pl-12) */}
                     <input
                       id="password"
                       value={formData.password}
@@ -226,7 +226,7 @@ const RegisterOwner = () => {
                       dir="ltr"
                     />
 
-                    {/* 👈 زر إظهار/إخفاء كلمة المرور */}
+                    {/* زر إظهار/إخفاء كلمة المرور */}
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}

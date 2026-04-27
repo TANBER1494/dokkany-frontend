@@ -10,14 +10,14 @@ import {
   LogOut,
   Moon,
   Sun,
-  ShieldAlert
+  ShieldAlert,
 } from 'lucide-react';
 import { AuthContext } from '../../context/AuthContext';
 import { ThemeContext } from '../../context/ThemeContext';
 import { showAlert } from '../../utils/alert';
 import NotificationBell from '../../components/layout/NotificationBell';
 // نستخدم نفس ملف الـ CSS الخاص بالمالك لاحتوائه على كود الـ Magic Menu والـ Hamburger
-import '../../components/layout/OwnerLayout.css'; 
+import '../../components/layout/OwnerLayout.css';
 import api from '../../services/api';
 
 const AdminLayout = () => {
@@ -27,7 +27,7 @@ const AdminLayout = () => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // 🚀 روابط لوحة الإدارة العليا بنفس ألوان المالك الجذابة
+  // روابط لوحة الإدارة العليا بنفس ألوان المالك الجذابة
   const navItems = [
     {
       name: 'لوحة التحكم',
@@ -60,34 +60,40 @@ const AdminLayout = () => {
   ];
 
   const handleLogout = () => {
-    showAlert.success('إلى اللقاء', 'تم تسجيل الخروج من لوحة الإدارة').then(() => {
-      logout();
-      navigate('/login');
-    });
+    showAlert
+      .success('إلى اللقاء', 'تم تسجيل الخروج من لوحة الإدارة')
+      .then(() => {
+        logout();
+        navigate('/login');
+      });
   };
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
-  // 🔔 تهيئة الإشعارات للمدير العام (لكي يستقبل طلبات التجديد لحظياً)
+  // تهيئة الإشعارات للمدير العام (لكي يستقبل طلبات التجديد لحظياً)
   useEffect(() => {
     requestForToken().then((token) => {
       if (token) {
-        api.put('/auth/fcm-token', { fcm_token: token })
+        api
+          .put('/auth/fcm-token', { fcm_token: token })
           .then(() => console.log('✅ تم حفظ توكن إشعارات الأدمن'))
-          .catch(err => console.error('❌ فشل حفظ التوكن', err));
+          .catch((err) => console.error('❌ فشل حفظ التوكن', err));
       }
     });
 
-   onMessageListener()
+    onMessageListener()
       .then((payload) => {
-        console.log("استلمت إشعار: ", payload);
-        
-        // 🚀 فحص حالة التطبيق: هل هو أمام المستخدم أم في الخلفية؟
+        console.log('استلمت إشعار: ', payload);
+
+        // فحص حالة التطبيق: هل هو أمام المستخدم أم في الخلفية؟
         if (document.visibilityState === 'visible') {
           // التطبيق مفتوح أمام عينه: نظهر Alert داخل الموقع
-          showAlert.success(payload.notification?.title, payload.notification?.body);
+          showAlert.success(
+            payload.notification?.title,
+            payload.notification?.body
+          );
         } else {
           // التطبيق في الخلفية: نجبر المتصفح على رسم إشعار نظام حقيقي لنتجنب رسالة كروم
           navigator.serviceWorker.ready.then((registration) => {
@@ -96,7 +102,9 @@ const AdminLayout = () => {
               icon: '/logo.png', // الأيقونة
               badge: '/badge.png', // الجرس الصغير
               dir: 'rtl',
-              data: { click_action: payload.data?.click_action || '/owner/dashboard' }
+              data: {
+                click_action: payload.data?.click_action || '/owner/dashboard',
+              },
             });
           });
         }
@@ -105,10 +113,12 @@ const AdminLayout = () => {
   }, []);
 
   return (
-    <div className="h-[100dvh] w-full flex flex-col overflow-hidden bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 transition-colors duration-300 floating-nav" dir="rtl">
+    <div
+      className="h-[100dvh] w-full flex flex-col overflow-hidden bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 transition-colors duration-300 floating-nav"
+      dir="rtl"
+    >
       {/* 🚀 الـ Header العائم (الماجيك مانيو) */}
       <header className="shrink-0 z-[100] w-[95%] lg:w-[92%] mx-auto bg-white/70 dark:bg-slate-900/80 backdrop-blur-xl border border-white/20 dark:border-slate-800/50 px-4 py-3 rounded-[30px] shadow-2xl flex items-center justify-between mt-4">
-        
         {/* الجزء الأيمن (اللوجو والهمبرجر) */}
         <div className="flex items-center gap-3 shrink-0">
           <div className="max-[1180px]:block hidden ml-2">
@@ -130,7 +140,9 @@ const AdminLayout = () => {
         </div>
 
         {/* الجزء الأوسط (القائمة السحرية) */}
-        <div className={`magic-menu-wrapper ${isMobileMenuOpen ? 'mobile-active' : ''}`}>
+        <div
+          className={`magic-menu-wrapper ${isMobileMenuOpen ? 'mobile-active' : ''}`}
+        >
           <ul className="magic-menu">
             {navItems.map((item) => {
               const isActive = location.pathname === item.path;
@@ -189,7 +201,9 @@ const AdminLayout = () => {
               <p className="text-[13px] font-black text-slate-800 dark:text-white leading-none text-right">
                 {user?.name?.split(' ')[0] || 'المدير'}
               </p>
-              <p className="text-[10px] text-blue-600 dark:text-blue-400 font-bold tracking-tight">SUPER ADMIN</p>
+              <p className="text-[10px] text-blue-600 dark:text-blue-400 font-bold tracking-tight">
+                SUPER ADMIN
+              </p>
             </div>
 
             <div
@@ -203,7 +217,7 @@ const AdminLayout = () => {
         </div>
       </header>
 
-      {/* ☁️ المحتوى الرئيسي */}
+      {/* المحتوى الرئيسي */}
       <main className="flex-1 overflow-y-auto w-full custom-scrollbar mt-4">
         <div className="max-w-7xl mx-auto p-4 md:p-6 lg:px-8 lg:pb-8 min-h-full">
           <AnimatePresence mode="wait">

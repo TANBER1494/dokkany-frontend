@@ -125,7 +125,6 @@ const CustomerDebtsManager = () => {
       return;
     try {
       setIsLoading(true);
-      // 🚀 تم تنظيف الكود ليعمل بشكل مباشر
       await customerDebtService.deleteCustomer(id);
       showAlert.success('تم الحذف', 'تم مسح الزبون من الدفتر');
       fetchCustomers();
@@ -232,7 +231,7 @@ const CustomerDebtsManager = () => {
         </button>
       </div>
 
-      {/* 💰 كارت إجمالي أموال المحل بالخارج */}
+      {/* كارت إجمالي أموال المحل بالخارج */}
       {!isLoading && (
         <motion.div
           initial={{ opacity: 0, y: -10 }}
@@ -257,7 +256,7 @@ const CustomerDebtsManager = () => {
         </motion.div>
       )}
 
-      {/* 📓 شبكة الزبائن (الكشكول) */}
+      {/* شبكة الزبائن (الكشكول) */}
       {isLoading ? (
         <div className="flex-1 flex items-center justify-center py-20">
           <Loader2 className="animate-spin text-indigo-500 dark:text-indigo-400 w-10 h-10" />
@@ -352,7 +351,7 @@ const CustomerDebtsManager = () => {
       )}
 
       {/* ========================================== */}
-      {/* 🆕 مودال: فتح/تعديل حساب زبون (React Portal) */}
+      {/* مودال: فتح/تعديل حساب زبون (React Portal) */}
       {/* ========================================== */}
       {typeof document !== 'undefined' &&
         createPortal(
@@ -465,7 +464,7 @@ const CustomerDebtsManager = () => {
         )}
 
       {/* ========================================== */}
-      {/* 💸 مودال: تسجيل حركة (React Portal) */}
+      {/* مودال: تسجيل حركة (React Portal) */}
       {/* ========================================== */}
       {typeof document !== 'undefined' &&
         createPortal(
@@ -630,7 +629,7 @@ const CustomerDebtsManager = () => {
         )}
 
       {/* ========================================== */}
-      {/* 📑 كشف الحساب المركزي القابل للطباعة 🖨️ (React Portal) */}
+      {/* كشف الحساب المركزي القابل للطباعة (React Portal) */}
       {/* ========================================== */}
       {typeof document !== 'undefined' &&
         createPortal(

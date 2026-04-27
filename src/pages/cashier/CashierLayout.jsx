@@ -34,7 +34,7 @@ const CashierLayout = () => {
     location.pathname === '/cashier' || location.pathname === '/cashier/';
 
   return (
-    /* 🚀 الحل الجذري: منع سكرول المتصفح الخارجي وتثبيت الارتفاع */
+    /* الحل الجذري: منع سكرول المتصفح الخارجي وتثبيت الارتفاع */
     <div className="h-[100dvh] w-full flex flex-col overflow-hidden bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 transition-colors duration-300 arabic-direct">
       {/* هيدر ثابت (shrink-0) لضمان عدم اختفائه */}
       <AnimatePresence>
@@ -45,18 +45,21 @@ const CashierLayout = () => {
             className="shrink-0 h-20 bg-white/70 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-4 sm:px-6 lg:px-8 z-50 transition-all shadow-sm"
           >
             <div className="flex items-center gap-3">
-  {/* اللوجو */}
-  <img
-    src={logoImg}
-    alt="لوجو دكاني"
-    className="w-17 h-14 sm:w-12 sm:h-12 object-contain drop-shadow-md transition-transform hover:scale-105"
-  />
+              {/* اللوجو */}
+              <img
+                src={logoImg}
+                alt="لوجو دكاني"
+                className="w-17 h-14 sm:w-12 sm:h-12 object-contain drop-shadow-md transition-transform hover:scale-105"
+              />
 
-  {/* 🚀 اسم النظام والفرع بجوار اللوجو */}
-  <div className="hidden sm:flex flex-col border-r border-slate-200 dark:border-slate-800 pr-3 transition-colors">
-    <span className="text-[18px] font-black text-slate-250 dark:text-slate-500 uppercase tracking-tighter leading-none"> مرحبا بك في نظام دكاني </span>
-  </div>
-</div>
+              {/* اسم النظام والفرع بجوار اللوجو */}
+              <div className="hidden sm:flex flex-col border-r border-slate-200 dark:border-slate-800 pr-3 transition-colors">
+                <span className="text-[18px] font-black text-slate-250 dark:text-slate-500 uppercase tracking-tighter leading-none">
+                  {' '}
+                  مرحبا بك في نظام دكاني{' '}
+                </span>
+              </div>
+            </div>
 
             <div className="flex items-center gap-2 sm:gap-4">
               <button
@@ -86,7 +89,7 @@ const CashierLayout = () => {
         )}
       </AnimatePresence>
 
-      {/* 📦 منطقة العمل: هي المسؤولة الوحيدة عن التمرير (overflow-y-auto) */}
+      {/* منطقة العمل: هي المسؤولة الوحيدة عن التمرير (overflow-y-auto) */}
       <main className="flex-1 overflow-y-auto w-full custom-scrollbar p-3 sm:p-6 lg:p-8">
         <div className="max-w-7xl mx-auto w-full min-h-full flex flex-col">
           {/* الحاوية الزجاجية - تأخذ الطول الذي يحتاجه المحتوى (min-h-full) */}
