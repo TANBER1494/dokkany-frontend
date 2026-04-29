@@ -15,6 +15,7 @@ const ShiftsMonitor = lazy(() => import('../pages/owner/ShiftsMonitor'));
 const InventoryManager = lazy(() => import('../pages/owner/InventoryManager'));
 const SubscriptionsManager = lazy(() => import('../pages/owner/SubscriptionsManager'));
 const OwnerSettings = lazy(() => import('../pages/owner/OwnerSettings'));
+const OwnerHelpCenter = lazy(() => import('../pages/owner/OwnerHelpCenter'));
 
 const CashierLayout = lazy(() => import('../pages/cashier/CashierLayout'));
 const CashierDashboard = lazy(() => import('../pages/cashier/CashierDashboard'));
@@ -78,6 +79,7 @@ const AppRoutes = () => {
             <Route path="inventory" element={<InventoryManager />} />
             <Route path="billing" element={<SubscriptionsManager />} />
             <Route path="settings" element={<OwnerSettings />} />
+            <Route path="help" element={<OwnerHelpCenter />} />
           </Route>
 
           {/* 👑 مسارات الإدارة العليا */}

@@ -13,13 +13,14 @@ import {
   Moon,
   Sun,
   Building2,
+  HelpCircle 
 } from 'lucide-react';
 import { AuthContext } from '../../context/AuthContext';
 import { ThemeContext } from '../../context/ThemeContext';
 import { showAlert } from '../../utils/alert';
 import NotificationBell from '../../components/layout/NotificationBell';
 import '../../components/layout/OwnerLayout.css';
-import api from '../../services/api'
+import api from '../../services/api';
 
 const OwnerLayout = () => {
   const { user, logout } = useContext(AuthContext);
@@ -28,8 +29,10 @@ const OwnerLayout = () => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  //  قمنا بإضافة 'id' لكل عنصر للتوجيه في الجولة
   const navItems = [
     {
+      id: 'tour-nav-dashboard',
       name: 'الرئيسية',
       path: '/owner/dashboard',
       icon: <LayoutDashboard size={18} />,
@@ -37,6 +40,7 @@ const OwnerLayout = () => {
       c2: '#0576d3',
     },
     {
+      id: 'tour-nav-shifts',
       name: 'الورديات',
       path: '/owner/shifts',
       icon: <History size={18} />,
@@ -44,6 +48,7 @@ const OwnerLayout = () => {
       c2: '#f59e0b',
     },
     {
+      id: 'tour-nav-branches',
       name: 'الفروع',
       path: '/owner/branches',
       icon: <Store size={18} />,
@@ -51,6 +56,7 @@ const OwnerLayout = () => {
       c2: '#7c3aed',
     },
     {
+      id: 'tour-nav-inventory',
       name: 'المخزن',
       path: '/owner/inventory',
       icon: <PackageSearch size={18} />,
@@ -58,6 +64,7 @@ const OwnerLayout = () => {
       c2: '#059669',
     },
     {
+      id: 'tour-nav-billing',
       name: 'الاشتراكات',
       path: '/owner/billing',
       icon: <CreditCard size={18} />,
@@ -65,6 +72,15 @@ const OwnerLayout = () => {
       c2: '#e11d48',
     },
     {
+      id: 'tour-nav-help',
+      name: 'دليل النظام',
+      path: '/owner/help',
+      icon: <HelpCircle size={18} />,
+      c1: '#0ea5e9',
+      c2: '#0284c7',
+    },
+    {
+      id: 'tour-nav-settings',
       name: 'الإعدادات',
       path: '/owner/settings',
       icon: <Settings size={18} />,
@@ -84,36 +100,33 @@ const OwnerLayout = () => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
-
- useEffect(() => {
-    // طلب الصلاحية واستخراج التوكن
+  useEffect(() => {
     requestForToken().then((token) => {
       if (token) {
-        console.log("🔥 THE FIREBASE TOKEN IS: ", token);
-        
-        api.put('/auth/fcm-token', { fcm_token: token })
-          .then(() => console.log('✅ تم حفظ توكن الإشعارات في قاعدة البيانات'))
-          .catch(err => console.error('❌ فشل حفظ التوكن في السيرفر', err));
+        api
+          .put('/auth/fcm-token', { fcm_token: token })
+          .then(() => console.log('✅ تم حفظ توكن الإشعارات'))
+          .catch((err) => console.error('❌ فشل حفظ التوكن', err));
       }
     });
 
-   onMessageListener()
+    onMessageListener()
       .then((payload) => {
-        console.log("استلمت إشعار: ", payload);
-        
-        // 🚀 فحص حالة التطبيق: هل هو أمام المستخدم أم في الخلفية؟
         if (document.visibilityState === 'visible') {
-          // التطبيق مفتوح أمام عينه: نظهر Alert داخل الموقع
-          showAlert.success(payload.notification?.title, payload.notification?.body);
+          showAlert.success(
+            payload.notification?.title,
+            payload.notification?.body
+          );
         } else {
-          // التطبيق في الخلفية: نجبر المتصفح على رسم إشعار نظام حقيقي لنتجنب رسالة كروم
           navigator.serviceWorker.ready.then((registration) => {
             registration.showNotification(payload.notification?.title, {
               body: payload.notification?.body,
-              icon: '/logo.png', // الأيقونة
-              badge: '/badge.png', // الجرس الصغير
+              icon: '/logo.png',
+              badge: '/badge.png',
               dir: 'rtl',
-              data: { click_action: payload.data?.click_action || '/owner/dashboard' }
+              data: {
+                click_action: payload.data?.click_action || '/owner/dashboard',
+              },
             });
           });
         }
@@ -121,13 +134,13 @@ const OwnerLayout = () => {
       .catch((err) => console.log('failed: ', err));
   }, []);
 
-
   return (
     <div className="h-[100dvh] w-full flex flex-col overflow-hidden bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 transition-colors duration-300 floating-nav">
       <header className="shrink-0 z-[100] w-[95%] lg:w-[92%] mx-auto bg-white/70 dark:bg-slate-900/80 backdrop-blur-xl border border-white/20 dark:border-slate-800/50 px-4 py-3 rounded-[30px] shadow-2xl flex items-center justify-between mt-4">
         <div className="flex items-center gap-3 shrink-0">
           <div className="max-[1180px]:block hidden ml-2">
             <button
+              id="tour-mobile-menu" /* 🚀 السطر الذي تم إضافته */
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className={`hamburger-btn ${isMobileMenuOpen ? 'open' : ''}`}
             >
@@ -140,8 +153,6 @@ const OwnerLayout = () => {
             <div className="bg-indigo-600 p-2 rounded-xl text-white shadow-lg">
               <Building2 size={20} />
             </div>
-            <h1 className="font-black text-lg tracking-tighter dark:text-white hidden sm:block">
-            </h1>
           </Link>
         </div>
 
@@ -154,6 +165,7 @@ const OwnerLayout = () => {
               return (
                 <li
                   key={item.path}
+                  id={item.id} // 🚀 حقن المعرف هنا
                   className={isActive ? 'active' : ''}
                   style={{ '--i': item.c1, '--j': item.c2 }}
                 >
@@ -165,8 +177,9 @@ const OwnerLayout = () => {
               );
             })}
 
-            {/* 🚀 زر تسجيل الخروج (يظهر في الموبايل فقط كعنصر سحري من القائمة) */}
+            {/* 🚀 إضافة ID لزر تسجيل الخروج */}
             <li
+              id="tour-nav-logout"
               className="hidden max-[1180px]:flex"
               style={{ '--i': '#f43f5e', '--j': '#e11d48' }}
             >
@@ -174,7 +187,6 @@ const OwnerLayout = () => {
                 onClick={handleLogout}
                 className="cursor-pointer w-full h-full flex items-center justify-center"
               >
-                {/* تم إجبار الأيقونة والنص على اللون الأحمر الدائم مع دعم الوضع الليلي */}
                 <span className="icon !text-rose-500 dark:!text-rose-400 group-hover:!text-white">
                   <LogOut size={18} />
                 </span>
@@ -189,25 +201,27 @@ const OwnerLayout = () => {
         <div className="flex items-center gap-2 sm:gap-4 shrink-0 pr-2">
           <div className="flex items-center gap-1.5 bg-slate-100/50 dark:bg-slate-800/50 p-1 rounded-2xl border border-slate-200/50 dark:border-slate-700/50">
             <button
+              id="tour-owner-theme"
               onClick={toggleTheme}
               className="p-2 rounded-xl text-slate-500 hover:text-indigo-600 transition-all"
             >
               {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
             </button>
-            <NotificationBell />
+            <div id="tour-owner-notifications" className="flex items-center">
+              <NotificationBell />
+            </div>
           </div>
 
           <div className="h-8 w-px bg-slate-200 dark:bg-slate-800 hidden sm:block mx-1"></div>
 
           <div className="flex items-center gap-2.5 cursor-pointer group">
-            {/* قسم البروفايل للديسكتوب */}
             <div className="text-left hidden lg:block">
               <p className="text-[13px] font-black text-slate-800 dark:text-white leading-none">
                 {user?.name || 'المالك'}
               </p>
             </div>
-
             <div
+              id="tour-owner-profile"
               onClick={() => navigate('/owner/settings')}
               className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-black text-sm ring-2 ring-white dark:ring-slate-800"
             >

@@ -45,39 +45,38 @@ const CashierLayout = () => {
             className="shrink-0 h-20 bg-white/70 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-4 sm:px-6 lg:px-8 z-50 transition-all shadow-sm"
           >
             <div className="flex items-center gap-3">
-              {/* اللوجو */}
               <img
                 src={logoImg}
                 alt="لوجو دكاني"
                 className="w-17 h-14 sm:w-12 sm:h-12 object-contain drop-shadow-md transition-transform hover:scale-105"
               />
-
-              {/* اسم النظام والفرع بجوار اللوجو */}
               <div className="hidden sm:flex flex-col border-r border-slate-200 dark:border-slate-800 pr-3 transition-colors">
                 <span className="text-[18px] font-black text-slate-250 dark:text-slate-500 uppercase tracking-tighter leading-none">
-                  {' '}
-                  مرحبا بك في نظام دكاني{' '}
+                  مرحبا بك في نظام دكاني
                 </span>
               </div>
             </div>
 
             <div className="flex items-center gap-2 sm:gap-4">
+              {/* 🚀 إضافة ID لزر الوضع الليلي */}
               <button
+                id="tour-theme-toggle"
                 onClick={toggleTheme}
                 className="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all"
               >
-                {isDarkMode ? (
-                  <Sun className="w-5 h-5" />
-                ) : (
-                  <Moon className="w-5 h-5" />
-                )}
+                {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
               </button>
 
-              <NotificationBell />
+              {/* 🚀 إضافة ID لزر الإشعارات (وضعناه في div لسهولة استهدافه) */}
+              <div id="tour-notifications" className="flex items-center">
+                <NotificationBell />
+              </div>
 
               <div className="h-8 w-px bg-slate-200 dark:bg-slate-700 mx-1 hidden sm:block"></div>
 
+              {/* 🚀 إضافة ID لزر تسجيل الخروج */}
               <button
+                id="tour-logout-btn"
                 onClick={handleLogout}
                 className="p-2.5 sm:px-4 sm:py-2.5 flex items-center gap-2 bg-rose-50 dark:bg-rose-500/10 hover:bg-rose-500 text-rose-600 dark:text-rose-400 hover:text-white rounded-xl font-bold transition-all active:scale-95 border border-rose-100 dark:border-rose-500/20"
               >
