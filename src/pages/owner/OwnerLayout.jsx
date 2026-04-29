@@ -55,6 +55,14 @@ const OwnerLayout = () => {
       c1: '#a855f7',
       c2: '#7c3aed',
     },
+     {
+      id: 'tour-nav-billing',
+      name: 'الاشتراكات',
+      path: '/owner/billing',
+      icon: <CreditCard size={18} />,
+      c1: '#f43f5e',
+      c2: '#e11d48',
+    },
     {
       id: 'tour-nav-inventory',
       name: 'المخزن',
@@ -63,14 +71,7 @@ const OwnerLayout = () => {
       c1: '#10b981',
       c2: '#059669',
     },
-    {
-      id: 'tour-nav-billing',
-      name: 'الاشتراكات',
-      path: '/owner/billing',
-      icon: <CreditCard size={18} />,
-      c1: '#f43f5e',
-      c2: '#e11d48',
-    },
+   
     {
       id: 'tour-nav-help',
       name: 'دليل النظام',
