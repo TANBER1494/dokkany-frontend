@@ -6,6 +6,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { ThemeContext } from '../../context/ThemeContext';
 import { showAlert } from '../../utils/alert';
 import NotificationBell from '../../components/layout/NotificationBell';
+import WhatsAppFloat from '../../components/layout/WhatsAppFloat';
 import logoImg from '../../assets/images/logo.png';
 const CashierLayout = () => {
   const { user, logout } = useContext(AuthContext);
@@ -108,6 +109,9 @@ const CashierLayout = () => {
           </div>
         </div>
       </main>
+
+      {/* 💬 زر واتساب العائم للدعم الفني */}
+      <WhatsAppFloat />
     </div>
   );
 };

@@ -12,15 +12,16 @@ import {
   CreditCard,
   Moon,
   Sun,
-  Building2,
   HelpCircle 
 } from 'lucide-react';
 import { AuthContext } from '../../context/AuthContext';
 import { ThemeContext } from '../../context/ThemeContext';
 import { showAlert } from '../../utils/alert';
 import NotificationBell from '../../components/layout/NotificationBell';
+import WhatsAppFloat from '../../components/layout/WhatsAppFloat';
 import '../../components/layout/OwnerLayout.css';
 import api from '../../services/api';
+import logoImg from '../../assets/images/logo.png';
 
 const OwnerLayout = () => {
   const { user, logout } = useContext(AuthContext);
@@ -151,9 +152,11 @@ const OwnerLayout = () => {
             </button>
           </div>
           <Link to="/owner/dashboard" className="flex items-center gap-2.5">
-            <div className="bg-indigo-600 p-2 rounded-xl text-white shadow-lg">
-              <Building2 size={20} />
-            </div>
+            <img
+              src={logoImg}
+              alt="دكاني"
+              className="w-9 h-9 object-contain drop-shadow-md rounded-lg"
+            />
           </Link>
         </div>
 
@@ -260,6 +263,9 @@ const OwnerLayout = () => {
           />
         )}
       </AnimatePresence>
+
+      {/* 💬 زر واتساب العائم للدعم الفني */}
+      <WhatsAppFloat />
     </div>
   );
 };

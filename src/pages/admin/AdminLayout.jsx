@@ -10,15 +10,16 @@ import {
   LogOut,
   Moon,
   Sun,
-  ShieldAlert,
 } from 'lucide-react';
 import { AuthContext } from '../../context/AuthContext';
 import { ThemeContext } from '../../context/ThemeContext';
 import { showAlert } from '../../utils/alert';
 import NotificationBell from '../../components/layout/NotificationBell';
+import WhatsAppFloat from '../../components/layout/WhatsAppFloat';
 // نستخدم نفس ملف الـ CSS الخاص بالمالك لاحتوائه على كود الـ Magic Menu والـ Hamburger
 import '../../components/layout/OwnerLayout.css';
 import api from '../../services/api';
+import logoImg from '../../assets/images/logo.png';
 
 const AdminLayout = () => {
   const { user, logout } = useContext(AuthContext);
@@ -132,10 +133,11 @@ const AdminLayout = () => {
             </button>
           </div>
           <Link to="/admin/payments" className="flex items-center gap-2.5">
-            <div className="bg-gradient-to-br from-blue-600 to-indigo-700 p-2 rounded-xl text-white shadow-lg">
-              <ShieldAlert size={20} />
-            </div>
-            {/* يمكن إضافة نص هنا إذا أردت، مثل: الإدارة العليا */}
+            <img
+              src={logoImg}
+              alt="دكاني"
+              className="w-9 h-9 object-contain drop-shadow-md rounded-lg"
+            />
           </Link>
         </div>
 
@@ -247,6 +249,9 @@ const AdminLayout = () => {
           />
         )}
       </AnimatePresence>
+
+      {/* 💬 زر واتساب العائم للدعم الفني */}
+      <WhatsAppFloat />
     </div>
   );
 };

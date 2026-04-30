@@ -93,17 +93,17 @@ const Login = () => {
           </div>
 
           <div className="relative z-10 text-center mt-12 mb-6 px-8">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white dark:bg-slate-800 p-2 mb-4 shadow-xl shadow-indigo-100 dark:shadow-indigo-900/20 border border-slate-100 dark:border-slate-700 transition-colors">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-indigo-50/60 dark:bg-slate-800/80 p-1.5 mb-4 shadow-lg shadow-indigo-100/50 dark:shadow-indigo-900/20 border border-indigo-100/40 dark:border-slate-700 transition-colors">
               <img
                 src={logoImg}
                 alt="دكاني"
                 style={{
-                  width: '130px',
+                  width: '100px',
                   height: 'auto',
-                  minWidth: '110px',
+                  minWidth: '80px',
                   display: 'block',
                 }}
-                className="object-contain drop-shadow-md"
+                className="object-contain drop-shadow-sm"
               />
             </div>
             <h2 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">
@@ -203,6 +203,9 @@ const Login = () => {
           >
             <Store className="w-4 h-4" /> انشاء حساب جديد
           </Link>
+          <p className="text-slate-400/70 dark:text-slate-600 text-[10px] font-medium pt-2 tracking-wide">
+            developed by Mohamed Abdelkhalek
+          </p>
         </div>
       </div>
     </div>
