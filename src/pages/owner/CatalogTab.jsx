@@ -21,11 +21,11 @@ const CatalogTab = ({ branchId }) => {
   const [categoryForm, setCategoryForm] = useState({ name: '', description: '' });
   const [editingCategoryId, setEditingCategoryId] = useState(null);
 
-  // 📦 حالات المنتجات
+  // 📦 حالات المنتجات (تم إضافة items_per_package)
   const [isProductModalOpen, setIsProductModalOpen] = useState(false);
   const [isProductEdit, setIsProductEdit] = useState(false);
   const [productForm, setProductForm] = useState({
-    name: '', unit_type: 'قطعة', purchase_price: '', selling_price: '', stock_quantity: '', category_id: ''
+    name: '', unit_type: 'قطعة', items_per_package: 1, purchase_price: '', selling_price: '', stock_quantity: '', category_id: ''
   });
   const [editingProductId, setEditingProductId] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -115,11 +115,7 @@ const CatalogTab = ({ branchId }) => {
   };
 
   // ==========================================
-  // عمليات المنتجات
-  // ==========================================
-
-  // ==========================================
-  // 📥 دوال الإكسيل (الجديدة)
+  // 📥 دوال الإكسيل
   // ==========================================
   const handleDownloadTemplate = async () => {
     try {
@@ -152,11 +148,15 @@ const CatalogTab = ({ branchId }) => {
     }
   };
 
+  // ==========================================
+  // عمليات المنتجات (تم إضافة تهيئة المعامل التحويلي)
+  // ==========================================
   const openAddProduct = (categoryId, e) => {
     e.stopPropagation();
     setProductForm({
       name: '',
-      unit_type: '',
+      unit_type: 'قطعة', // افتراضي
+      items_per_package: 1, // افتراضي
       purchase_price: '',
       selling_price: '',
       stock_quantity: '',
@@ -170,7 +170,8 @@ const CatalogTab = ({ branchId }) => {
     e.stopPropagation();
     setProductForm({
       name: product.name,
-      unit_type: product.unit_type || '', 
+      unit_type: product.unit_type || 'قطعة', 
+      items_per_package: product.items_per_package || 1, // استدعاء المعامل المحفوظ
       purchase_price: product.purchase_price,
       selling_price: product.selling_price,
       stock_quantity: product.stock_quantity,
@@ -187,11 +188,12 @@ const CatalogTab = ({ branchId }) => {
       !productForm.name ||
       !productForm.purchase_price ||
       !productForm.selling_price ||
-      !productForm.unit_type
+      !productForm.unit_type ||
+      !productForm.items_per_package // تحقق إضافي للمعامل
     ) {
       return showAlert.error(
         'تنبيه',
-        'يرجى إكمال البيانات الأساسية واسم الوحدة'
+        'يرجى إكمال البيانات الأساسية واسم الوحدة وعدد القطع'
       );
     }
     setIsSubmitting(true);
@@ -270,9 +272,7 @@ return (
           />
         </div>
 
-        {/* حاوية الأزرار المحدثة (زر الإضافة وزر الاستيراد) */}
         <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
-          {/* 🚀 زر استيراد الإكسيل الجديد */}
           <button
             onClick={() => {
               setImportSummary(null);
@@ -323,7 +323,6 @@ return (
                   key={category._id}
                   className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-sm overflow-hidden transition-all hover:border-indigo-300 dark:hover:border-slate-600"
                 >
-                  {/* رأس القسم */}
                   <div
                     onClick={() => toggleAccordion(category._id)}
                     className={`flex flex-wrap items-center justify-between p-4 cursor-pointer transition-colors ${expandedCategory === category._id ? 'bg-indigo-50/80 dark:bg-indigo-500/10 border-b border-indigo-100 dark:border-indigo-500/20' : 'hover:bg-slate-50 dark:hover:bg-slate-700/50'}`}
@@ -378,7 +377,6 @@ return (
                     </div>
                   </div>
 
-                  {/* قائمة المنتجات المنسدلة */}
                   <AnimatePresence>
                     {expandedCategory === category._id && (
                       <motion.div
@@ -412,10 +410,10 @@ return (
                                   <h4 className="font-extrabold text-slate-800 dark:text-white text-sm pr-1">
                                     {product.name}
                                   </h4>
-                                  <p className="text-[11px] font-bold text-indigo-500 dark:text-indigo-400 mt-1 flex items-center gap-1">
-                                    <Scale className="w-3 h-3" /> يباع بـ ({' '}
-                                    {product.unit_type || 'قطعة'} )
-                                  </p>
+                                  <div className="text-[11px] font-bold text-indigo-500 dark:text-indigo-400 mt-1 flex items-center gap-2">
+                                    <span className="flex items-center gap-1"><Scale className="w-3 h-3" /> الجرد بـ ({product.unit_type || 'قطعة'})</span>
+                                    <span className="text-slate-400 dark:text-slate-500 px-1 border-r border-slate-300 dark:border-slate-600">بداخلها {product.items_per_package || 1} قطعة</span>
+                                  </div>
 
                                   <div className="grid grid-cols-3 gap-2 mt-4 mb-4 bg-slate-50 dark:bg-slate-900/50 p-2.5 rounded-lg border border-slate-100 dark:border-slate-700 text-center transition-colors">
                                     <div>
@@ -526,7 +524,7 @@ return (
       </AnimatePresence>
 
       {/* ========================================== */}
-      {/* 📦 مودال 2: إضافة / تعديل صنف (منتج) */}
+      {/* 📦 مودال 2: إضافة / تعديل صنف (منتج) - التعديل هنا 🚀 */}
       {/* ========================================== */}
       <AnimatePresence>
         {(isProductModalOpen || isProductEdit) && (
@@ -534,7 +532,7 @@ return (
             <div className="absolute inset-0 z-0" onClick={() => { !isSubmitting && setIsProductModalOpen(false); setIsProductEdit(false); }}></div>
             <motion.div 
               initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }} transition={{ type: 'spring', damping: 25, stiffness: 200 }} 
-              className="relative w-full sm:max-w-lg bg-white dark:bg-slate-800 rounded-t-[32px] sm:rounded-[32px] shadow-2xl flex flex-col max-h-[90vh] overflow-hidden border-t sm:border border-slate-100 dark:border-slate-700 transition-colors z-10"
+              className="relative w-full sm:max-w-xl bg-white dark:bg-slate-800 rounded-t-[32px] sm:rounded-[32px] shadow-2xl flex flex-col max-h-[90vh] overflow-hidden border-t sm:border border-slate-100 dark:border-slate-700 transition-colors z-10"
             >
               <div className="p-6 border-b border-indigo-50 dark:border-slate-700 flex justify-between items-center bg-indigo-50/30 dark:bg-slate-800/50 shrink-0">
                 <h3 className="text-xl font-black text-slate-800 dark:text-white flex items-center gap-2">
@@ -545,34 +543,52 @@ return (
 
               <div className="p-6 overflow-y-auto flex-1 custom-scrollbar">
                 <form id="prod-form" onSubmit={handleProductSubmit} className="space-y-5">
-                  <div className="grid grid-cols-[2fr_1fr] gap-4">
+                  {/* الصف الأول: الاسم، الوحدة، ومعامل التحويل */}
+                  <div className="grid grid-cols-1 sm:grid-cols-[2fr_1fr_1fr] gap-4">
                     <div>
                       <label className="text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5 block">اسم الصنف</label>
                       <input type="text" value={productForm.name} onChange={(e) => setProductForm({ ...productForm, name: e.target.value })} className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900/50 text-slate-800 dark:text-slate-200 outline-none font-semibold focus:border-indigo-400" required />
                     </div>
                     <div>
-                      <label className="text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5 block">نوع الكمية</label>
-                      <input type="text" value={productForm.unit_type} onChange={(e) => setProductForm({ ...productForm, unit_type: e.target.value })} placeholder="قطعة..." className="w-full p-3 rounded-xl border border-indigo-100 dark:border-indigo-500/30 bg-indigo-50/50 dark:bg-indigo-500/10 outline-none font-bold text-indigo-700" required />
+                      <label className="text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5 block">وحدة الجرد</label>
+                      <input type="text" value={productForm.unit_type} onChange={(e) => setProductForm({ ...productForm, unit_type: e.target.value })} placeholder="كرتونة، علبة..." className="w-full p-3 rounded-xl border border-indigo-100 dark:border-indigo-500/30 bg-indigo-50/50 dark:bg-indigo-500/10 outline-none font-bold text-indigo-700 dark:text-indigo-400" required />
+                    </div>
+                    <div>
+                      <label className="text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1.5 block truncate">عدد القطع بداخلها</label>
+                      <input type="number" min="1" value={productForm.items_per_package} onChange={(e) => setProductForm({ ...productForm, items_per_package: e.target.value })} placeholder="1" className="w-full p-3 rounded-xl border border-indigo-100 dark:border-indigo-500/30 bg-indigo-50/50 dark:bg-indigo-500/10 outline-none font-bold text-indigo-700 dark:text-indigo-400" required />
                     </div>
                   </div>
+                  
+                  {/* الصف الثاني: أسعار الشراء والبيع */}
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5 block">سعر الشراء</label>
+                      <label className="text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5 block flex justify-between items-center">
+                        <span>سعر الشراء</span>
+                        <span className="text-[9px] text-slate-400">للقطعة الواحدة</span>
+                      </label>
                       <input type="number" step="0.01" value={productForm.purchase_price} onChange={(e) => setProductForm({ ...productForm, purchase_price: e.target.value })} className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900/50 text-slate-800 dark:text-slate-200 outline-none font-bold" required />
                     </div>
                     <div>
-                      <label className="text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5 block">سعر البيع</label>
-                      <input type="number" step="0.01" value={productForm.selling_price} onChange={(e) => setProductForm({ ...productForm, selling_price: e.target.value })} className="w-full p-3 rounded-xl border border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 font-black" required />
+                      <label className="text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5 block flex justify-between items-center">
+                        <span>سعر البيع</span>
+                        <span className="text-[9px] text-emerald-500/70">للقطعة الواحدة</span>
+                      </label>
+                      <input type="number" step="0.01" value={productForm.selling_price} onChange={(e) => setProductForm({ ...productForm, selling_price: e.target.value })} className="w-full p-3 rounded-xl border border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-black" required />
                     </div>
                   </div>
+
+                  {/* الصف الثالث: الكمية والقسم */}
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5 block">الكمية</label>
+                      <label className="text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5 block flex justify-between items-center">
+                        <span>إجمالي الكمية بالمخزن</span>
+                        <span className="text-[9px] text-slate-400">بالقطعة</span>
+                      </label>
                       <input type="number" value={productForm.stock_quantity} onChange={(e) => setProductForm({ ...productForm, stock_quantity: e.target.value })} className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900/50 text-slate-800 dark:text-slate-200 outline-none font-bold" required />
                     </div>
                     <div>
                       <label className="text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5 block">القسم</label>
-                      <select value={productForm.category_id} onChange={(e) => setProductForm({ ...productForm, category_id: e.target.value })} className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900/50 text-slate-800 dark:text-slate-200 outline-none font-bold text-sm">
+                      <select value={productForm.category_id} onChange={(e) => setProductForm({ ...productForm, category_id: e.target.value })} className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900/50 text-slate-800 dark:text-slate-200 outline-none font-bold text-sm cursor-pointer">
                         {categories.map((c) => <option key={c._id} value={c._id}>{c.name}</option>)}
                       </select>
                     </div>

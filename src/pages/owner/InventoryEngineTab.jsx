@@ -20,6 +20,7 @@ import {
   Layers,
   Building,
   Printer,
+  PackageOpen, // أضفنا أيقونة جديدة للباكتة
 } from 'lucide-react';
 import { showAlert } from '../../utils/alert';
 import catalogService from '../../services/catalogService';
@@ -32,7 +33,10 @@ const InventoryEngineTab = ({ branchId }) => {
   const [step, setStep] = useState(1);
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  
+  // 🚀 [تعديل] State أصبح يحمل أوبجيكت لكل منتج { packages: 0, pieces: 0 }
   const [countedItems, setCountedItems] = useState({});
+  
   const [financials, setFinancials] = useState({
     actual_cash: '',
     previous_capital: '',
@@ -68,9 +72,16 @@ const InventoryEngineTab = ({ branchId }) => {
       const fetchedProducts = await catalogService.getProducts({ branch_id: branchId });
       setProducts(fetchedProducts);
 
+      // 🚀 [تعديل] تفكيك الكمية الحالية إلى (كراتين و قطع) بناءً على المعامل
       const initialCounts = {};
       fetchedProducts.forEach((p) => {
-        initialCounts[p._id] = p.stock_quantity || 0;
+        const mult = (p.items_per_package && p.items_per_package > 0) ? p.items_per_package : 1;
+        const totalQty = p.stock_quantity || 0;
+        
+        const pkgs = Math.floor(totalQty / mult);
+        const pcs = totalQty % mult;
+        
+        initialCounts[p._id] = { packages: pkgs, pieces: pcs };
       });
       setCountedItems(initialCounts);
 
@@ -90,16 +101,22 @@ const InventoryEngineTab = ({ branchId }) => {
     }
   };
 
-  const handleQuantityChange = (productId, value) => {
+  // 🚀 [تعديل] دالة التغيير أصبحت تدعم تحديد نوع الحقل (packages أو pieces)
+  const handleQuantityChange = (productId, field, value) => {
     const val = parseInt(value, 10);
+    const safeVal = isNaN(val) || val < 0 ? 0 : val;
     setCountedItems((prev) => ({
       ...prev,
-      [productId]: isNaN(val) || val < 0 ? 0 : val,
+      [productId]: {
+        ...prev[productId],
+        [field]: safeVal
+      }
     }));
   };
 
   const proceedToFinancials = () => {
-    const hasCountedAny = Object.values(countedItems).some((qty) => qty > 0);
+    // 🚀 التحقق من إدخال أي كمية (سواء كرتونة أو قطعة)
+    const hasCountedAny = Object.values(countedItems).some((qty) => (qty.packages || 0) > 0 || (qty.pieces || 0) > 0);
     if (!hasCountedAny && products.length > 0)
       return showAlert.error('تنبيه', 'يجب إدخال كمية مجرودة لصنف واحد على الأقل.');
     setStep(2);
@@ -111,10 +128,15 @@ const InventoryEngineTab = ({ branchId }) => {
       return showAlert.error('تنبيه', 'يرجى إدخال الكاش الفعلي ورأس المال السابق لإتمام المعادلة.');
     }
 
-    const formattedItems = products.map((p) => ({
-      product_id: p._id,
-      quantity: countedItems[p._id] || 0,
-    }));
+    // 🚀 [تعديل] تجهيز الـ Payload ليتطابق مع الـ Backend
+    const formattedItems = products.map((p) => {
+      const counts = countedItems[p._id] || { packages: 0, pieces: 0 };
+      return {
+        product_id: p._id,
+        counted_packages: counts.packages || 0,
+        counted_pieces: counts.pieces || 0,
+      };
+    });
 
     setIsSubmitting(true);
     try {
@@ -168,15 +190,15 @@ const InventoryEngineTab = ({ branchId }) => {
     );
   }
 
+  // ==========================================
   // واجهة العرض الرئيسية (الميزانية العمومية مع الطباعة)
+  // ==========================================
   if (viewMode === 'DASHBOARD' && lastInventoryData) {
     const profit = lastInventoryData.net_profit || 0;
     const isFirstTime = lastInventoryData.previous_capital === 0 && profit === 0;
 
     return (
       <div className="w-full max-w-5xl mx-auto space-y-6 pb-10 mt-2 printable-document relative text-slate-800 dark:text-slate-200 transition-colors duration-300">
-        
-        {/* محرك الطباعة الجراحي */}
         <style media="print">
           {`
             @page { size: A4 portrait; margin: 15mm; }
@@ -209,16 +231,10 @@ const InventoryEngineTab = ({ branchId }) => {
             <p className="text-xs font-bold text-slate-500 dark:text-slate-400 mt-1">آخر تحديث ومطابقة لدفاتر الفرع</p>
           </div>
           <div className="flex w-full sm:w-auto gap-2">
-            <button
-              onClick={handlePrint}
-              className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-slate-50 dark:bg-slate-700/50 text-slate-700 dark:text-slate-300 px-4 py-3 rounded-xl font-bold border border-slate-200 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700 active:scale-95 transition-all text-sm shadow-sm"
-            >
+            <button onClick={handlePrint} className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-slate-50 dark:bg-slate-700/50 text-slate-700 dark:text-slate-300 px-4 py-3 rounded-xl font-bold border border-slate-200 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700 active:scale-95 transition-all text-sm shadow-sm">
               <Printer className="w-4 h-4" /> طباعة الميزانية
             </button>
-            <button
-              onClick={() => startNewInventory(lastInventoryData)}
-              className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-indigo-600 dark:bg-indigo-500 text-white px-5 py-3 rounded-xl font-bold shadow-md shadow-indigo-500/20 dark:shadow-none hover:bg-indigo-700 dark:hover:bg-indigo-600 active:scale-95 transition-all text-sm"
-            >
+            <button onClick={() => startNewInventory(lastInventoryData)} className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-indigo-600 dark:bg-indigo-500 text-white px-5 py-3 rounded-xl font-bold shadow-md shadow-indigo-500/20 dark:shadow-none hover:bg-indigo-700 dark:hover:bg-indigo-600 active:scale-95 transition-all text-sm">
               <RotateCcw className="w-4 h-4" /> جرد دوري جديد
             </button>
           </div>
@@ -258,7 +274,6 @@ const InventoryEngineTab = ({ branchId }) => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x lg:divide-x-reverse divide-slate-100 dark:divide-slate-700 print:divide-gray-200">
-            
             {/* الأصول */}
             <div className="p-8 bg-white dark:bg-slate-800 print:p-6 transition-colors">
               <h3 className="text-lg font-black text-slate-800 dark:text-white border-b-2 border-slate-100 dark:border-slate-700 pb-3 mb-5 flex items-center gap-2 print-text-black print-border transition-colors">
@@ -315,12 +330,12 @@ const InventoryEngineTab = ({ branchId }) => {
   }
 
   // ==========================================
-  // ⚙️ محرك الجرد (Wizard Steps - Natural Scroll)
+  // ⚙️ محرك الجرد (Wizard Steps)
   // ==========================================
   return (
     <div className="w-full flex flex-col gap-6 relative pb-20 mt-2 transition-colors duration-300">
       
-      {/* شريط التقدم (Pill Design) */}
+      {/* شريط التقدم */}
       <div className="bg-white dark:bg-slate-800 p-4 rounded-[24px] shadow-sm border border-slate-100 dark:border-slate-700 flex items-center justify-between mx-auto w-full max-w-2xl shrink-0 relative overflow-hidden transition-colors">
         <div className="flex items-center gap-3 z-10 bg-white dark:bg-slate-800 pr-2 transition-colors">
           <div className={`w-8 h-8 rounded-xl flex items-center justify-center font-black text-sm transition-colors ${step >= 1 ? 'bg-indigo-600 dark:bg-indigo-500 text-white shadow-md shadow-indigo-500/20' : 'bg-slate-100 dark:bg-slate-700 text-slate-400 dark:text-slate-500'}`}>
@@ -358,32 +373,81 @@ const InventoryEngineTab = ({ branchId }) => {
                   className="w-full pl-4 pr-12 py-3.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900/50 text-sm font-bold text-slate-800 dark:text-white outline-none focus:border-indigo-600 dark:focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-900 transition-all"
                 />
               </div>
-              <div className="mt-4 flex items-center gap-2 text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10 p-3 rounded-xl border border-indigo-100 dark:border-indigo-500/20 transition-colors">
-                <AlertCircle className="w-4 h-4 shrink-0" />
-                <p> الكميات اتعبت علي اساس المخزن متنساش تعد اثناء الجرد وتغير الكميات علي حسب العدد الحالي</p>
+              <div className="mt-4 flex flex-col sm:flex-row items-start sm:items-center gap-3 text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10 p-4 rounded-xl border border-indigo-100 dark:border-indigo-500/20 transition-colors">
+                <AlertCircle className="w-5 h-5 shrink-0" />
+                <p className="leading-relaxed">
+                  الكميات الموجودة في المربعات حالياً هي أرصدة السيستم القديمة (مقسمة إلى كراتين وقطع حسب إعداداتك).<br/>
+                  <span className="text-slate-600 dark:text-slate-300">أثناء الجرد الفعلي: امسح الرقم واكتب ما وجدته بيدك لتحديث المخزن.</span>
+                </p>
               </div>
             </div>
 
-            {/* قائمة المنتجات */}
+            {/* قائمة المنتجات المعمارية الجديدة 🚀 */}
             <div className="flex flex-col gap-3">
               {filteredProducts.map((product) => (
-                <div key={product._id} className="bg-white dark:bg-slate-800 p-4 rounded-[20px] shadow-sm border border-slate-100 dark:border-slate-700 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-indigo-200 dark:hover:border-slate-600 transition-colors">
-                  <div>
-                    <h4 className="font-black text-slate-800 dark:text-white text-base">{product.name}</h4>
-                    <p className="text-xs font-bold text-slate-400 dark:text-slate-500 mt-1 flex items-center gap-1.5">
-                      <span className="bg-slate-50 dark:bg-slate-900/50 px-2 py-0.5 rounded-md border border-slate-100 dark:border-slate-700">{product.category_id?.name || 'غير مصنف'}</span>
-                      <span className="bg-slate-50 dark:bg-slate-900/50 px-2 py-0.5 rounded-md border border-slate-100 dark:border-slate-700">{product.unit_type || 'قطعة'}</span>
-                    </p>
+                <div key={product._id} className="bg-white dark:bg-slate-800 p-4 sm:p-5 rounded-[20px] shadow-sm border border-slate-100 dark:border-slate-700 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-indigo-200 dark:hover:border-slate-600 transition-all">
+                  
+                  {/* معلومات المنتج */}
+                  <div className="flex-1 w-full">
+                    <h4 className="font-black text-slate-800 dark:text-white text-base sm:text-lg mb-2">{product.name}</h4>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-300 px-2.5 py-1 rounded-lg text-xs font-bold border border-slate-200 dark:border-slate-600">
+                        {product.category_id?.name || 'غير مصنف'}
+                      </span>
+                      {product.items_per_package > 1 ? (
+                         <span className="bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-2.5 py-1 rounded-lg text-[11px] font-bold border border-emerald-100 dark:border-emerald-500/20 flex items-center gap-1">
+                           <PackageOpen className="w-3.5 h-3.5" />
+                           {product.unit_type || 'كرتونة'} = {product.items_per_package} قطع
+                         </span>
+                      ) : (
+                         <span className="bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 px-2.5 py-1 rounded-lg text-xs font-bold border border-indigo-100 dark:border-indigo-500/20">
+                           {product.unit_type || 'قطعة'}
+                         </span>
+                      )}
+                    </div>
                   </div>
-                  <div className="flex items-center gap-3 w-full sm:w-auto bg-slate-50 dark:bg-slate-900/50 p-1.5 rounded-xl border border-slate-100 dark:border-slate-700 transition-colors">
-                    <label className="text-xs font-bold text-slate-500 dark:text-slate-400 pl-2">الكميه:</label>
-                    <input
-                      type="number" min="0"
-                      value={countedItems[product._id] === 0 ? '' : countedItems[product._id]}
-                      onChange={(e) => handleQuantityChange(product._id, e.target.value)}
-                      placeholder="0"
-                      className="w-24 text-center py-2 rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 outline-none focus:border-indigo-600 dark:focus:border-indigo-500 font-black text-slate-800 dark:text-white text-lg transition-all"
-                    />
+
+                  {/* 🚀 إدخال الكميات المزدوج (كرتونة و قطع) */}
+                  <div className="flex items-center gap-2 w-full sm:w-auto">
+                    {product.items_per_package > 1 ? (
+                      <>
+                        {/* مربع إدخال الكراتين */}
+                        <div className="flex-1 flex flex-col bg-slate-50 dark:bg-slate-900/50 p-2 sm:p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 transition-colors">
+                          <label className="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 mb-1.5 text-center">عدد الـ ({product.unit_type || 'كرتونة'})</label>
+                          <input
+                            type="number" min="0"
+                            value={countedItems[product._id]?.packages === 0 ? '' : countedItems[product._id]?.packages}
+                            onChange={(e) => handleQuantityChange(product._id, 'packages', e.target.value)}
+                            placeholder="0"
+                            className="w-full sm:w-20 text-center py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 outline-none focus:border-indigo-500 font-black text-slate-800 dark:text-white text-lg transition-all"
+                          />
+                        </div>
+                        <span className="text-slate-300 dark:text-slate-600 font-bold text-lg">+</span>
+                        {/* مربع إدخال الفكة */}
+                        <div className="flex-1 flex flex-col bg-slate-50 dark:bg-slate-900/50 p-2 sm:p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 transition-colors">
+                          <label className="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 mb-1.5 text-center">قطع فكة</label>
+                          <input
+                            type="number" min="0"
+                            value={countedItems[product._id]?.pieces === 0 ? '' : countedItems[product._id]?.pieces}
+                            onChange={(e) => handleQuantityChange(product._id, 'pieces', e.target.value)}
+                            placeholder="0"
+                            className="w-full sm:w-20 text-center py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 outline-none focus:border-indigo-500 font-black text-slate-800 dark:text-white text-lg transition-all"
+                          />
+                        </div>
+                      </>
+                    ) : (
+                      // إذا كان يباع بالقطعة فقط يظهر مربع واحد كالسابق
+                      <div className="flex-1 flex flex-col bg-slate-50 dark:bg-slate-900/50 p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 transition-colors">
+                        <label className="text-xs font-bold text-slate-500 dark:text-slate-400 mb-1.5 text-center">إجمالي الكمية الفعلي</label>
+                        <input
+                          type="number" min="0"
+                          value={countedItems[product._id]?.pieces === 0 ? '' : countedItems[product._id]?.pieces}
+                          onChange={(e) => handleQuantityChange(product._id, 'pieces', e.target.value)}
+                          placeholder="0"
+                          className="w-full sm:w-32 text-center py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 outline-none focus:border-indigo-500 font-black text-slate-800 dark:text-white text-lg transition-all"
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
@@ -398,7 +462,7 @@ const InventoryEngineTab = ({ branchId }) => {
             {/* شريط المتابعة العائم (Sticky Footer) */}
             <div className="sticky bottom-4 mx-auto w-full max-w-3xl bg-white/90 dark:bg-slate-800/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 flex justify-between items-center z-10 transition-colors">
               <div className="text-xs sm:text-sm font-bold text-slate-600 dark:text-slate-400">
-                أصناف تم جردها: <span className="font-black text-indigo-600 dark:text-indigo-400 text-base">{Object.values(countedItems).filter((q) => q > 0).length}</span>
+                أصناف تم جردها: <span className="font-black text-indigo-600 dark:text-indigo-400 text-base">{Object.values(countedItems).filter((q) => (q.packages || 0) > 0 || (q.pieces || 0) > 0).length}</span>
               </div>
               <button
                 onClick={proceedToFinancials}
